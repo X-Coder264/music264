@@ -14,7 +14,7 @@
 
             <br>
 
-        @if($threads->count() > 0)
+       @if($user->threads->count() > 0)
             <table class="table table-striped table-bordered table-hover table-responsive">
                 <thead>
                 <tr>
@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
-            @foreach($threads as $thread)
+            @foreach($user->threads as $thread)
                 <?php $style = $thread->isUnread($currentUserId) ? 'background-color:#D9EDF7;' : ''; ?>
                     <tr style="{!!$style!!}">
                         <td><h4 class="media-heading">{!! link_to('messages/' . $thread->id, $thread->subject) !!}</h4></td>
@@ -36,10 +36,9 @@
             @endforeach
                 </tbody>
             </table>
-            {!! $threads->render() !!}
-        @else
-            <p>Sorry, no threads.</p>
-        @endif
+      @else
+           <p>Sorry, no threads.</p>
+       @endif
 
         <br>
         <hr>
