@@ -1,0 +1,106 @@
+<?php
+
+namespace Artsenal\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use Artsenal\Http\Requests;
+use Artsenal\Http\Controllers\Controller;
+use DB;
+use Illuminate\Support\Facades\Redirect;
+
+class StaffCPController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('staffcp.index');
+    }
+
+    public function service_requests()
+    {
+        $NonApprovedServices = DB::table('service_user')->join('services', 'service_user.service_id', '=', 'services.id')->where('approved', 0)->get();
+        return view('staffcp.service_requests', compact('NonApprovedServices'));
+    }
+
+    public function Approving_service_requests($user_id, $service_id)
+    {
+        DB::table('service_user')->where('service_id', $service_id)
+                                 ->where('user_id', $user_id)
+                                 ->update([
+                                     'approved' => 1
+                                 ]);
+
+        return Redirect::back()->with('message','You have succesfully approved this service!');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+}
