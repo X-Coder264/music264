@@ -58,18 +58,19 @@ class MusicController extends Controller
 
         $file = Request::file('song');
         $destinationPath = 'users/'. $user->slug.'/songs/';
-        $fName=$file->getClientOriginalName();
+        /*$fName=$file->getClientOriginalName();
             for ($i=0; $i<strlen($fName);$i++){
                 if ($fName[$i]==' '){
                     $fName[$i]='%';
                 }
             }
-        $filename= $user->id.$fName;
-        $uploadSuccess = Input::file('song')->move($destinationPath, $filename);
+        $filename= $user->id.$fName;*/
+        $filename2= $user->id.$file->getClientOriginalName();
+        $uploadSuccess = Input::file('song')->move($destinationPath, $filename2);
         Song::create(array(
             'name' => Input::get('name'),
             'description' => Input::get('description'),
-            'song' => $filename,
+            'song' => $filename2,
             'user_id'=> Input::get('user_id')
         ));
         return Redirect::route('music', [$user->slug]);

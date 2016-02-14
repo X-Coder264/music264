@@ -75,6 +75,7 @@ class RatingsSongsController extends Controller
     public function songInfo(Request $request)
     {
         $source = $request->get('source');
+        $source=urldecode($source);
 
         $control=0;
         $song = '';
