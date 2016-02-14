@@ -1,26 +1,82 @@
 /**
  * Created by Tomi Laptop on 7.1.2016..
  */
-// todo:testing erase when finsihed
 
+//While song is loading, it takes source of current song and gets info from database about that song
+$(document).ready(function(){
+    var vid = document.getElementById("audio-player");
+
+    vid.onloadedmetadata = function() {
+
+        $.ajax({
+            url: '/ratings/song',
+            data: {source : vid.currentSrc},
+
+            dataType: 'json',
+
+            success: function(data)
+            {
+                song = data[0];
+                var $songName = data[0]['name'];
+                $("#song-name").text($songName);
+
+                $.ajax({
+                    url: '/ratings',
+                    data: {songId: song['id']},
+
+                    dataType: 'json',
+                    success: function(data)
+                    {
+
+                        var $value = data[0]['value'];
+
+                        if ($value == 1){
+                            $('.rating').find(':radio[name=rate][value="1"]').prop('checked', true);
+                        }
+                        else  if ($value == 2){
+                            $('.rating').find(':radio[name=rate][value="2"]').prop('checked', true);
+                        }
+                        else  if ($value == 3){
+                            $('.rating').find(':radio[name=rate][value="3"]').prop('checked', true);
+                        }
+                        else  if ($value == 4){
+                            $('.rating').find(':radio[name=rate][value="4"]').prop('checked', true);
+                        }
+                        else  if ($value == 5){
+                            $('.rating').find(':radio[name=rate][value="5"]').prop('checked', true);
+                        }
+                    },
+
+                    type: 'GET'
+                });
+            },
+
+            type: 'GET'
+        });
+
+    };
+});
+
+//When rating radio button i pressed gets the value and sends it to database with the rest info needed for ratings table in database
 $('.rating').click(function(event) {
     event.preventDefault();
 
+    var $starValue='';
 
     if ($('.rate-1').is(':checked')){
-        $starValue = $('.rate-1').val();
+        $starValue = 1;
     }
     else  if ($('.rate-2').is(':checked')){
-        $starValue = $('.rate-2').val();
+        $starValue = 2;
     }
     else  if ($('.rate-3').is(':checked')){
-        $starValue = $('.rate-3').val();
+        $starValue = 3;
     }
     else  if ($('.rate-4').is(':checked')){
-        $starValue = $('.rate-4').val();
+        $starValue = 4;
     }
     else  if ($('.rate-5').is(':checked')){
-        $starValue = $('.rate-5').val();
+        $starValue = 5;
     }
 
 
@@ -28,14 +84,13 @@ $('.rating').click(function(event) {
         url: '/ratings',
 
         //TODO: sredi sta salje
-        data:{ rate: $starValue, songId: '1'},
+        data:{ rate: $starValue, songId: song['id']},
 
         headers: {
             'X-CSRF-TOKEN': $('input[name="_token"]').val()
         },
 
         success: function($starValue) {
-            //var $bla = $('.klasatext').val();
 
             if ($starValue == 1){
                 $('.rating').find(':radio[name=rate][value="1"]').prop('checked', true);
@@ -53,29 +108,24 @@ $('.rating').click(function(event) {
                 $('.rating').find(':radio[name=rate][value="5"]').prop('checked', true);
             }
 
-
-            $('.rating')
-
-                //.append($starValue);
-            console.log($starValue);
         },
 
         type: 'POST'
     });
 });
-
+/*
 $(function ()
 {
 
     $.ajax({
-        url: '/ratings',                  //the script to call to get data
-        data: "",                        //you can insert url argumnets here to pass to api.php
-                                         //for example "id=5&parent=6"
-        dataType: 'json',                //data format
-        success: function(data)          //on recieve of reply
+        url: '/ratings',
+        data: {songId: song['id']},
+
+        dataType: 'json',
+        success: function(data)
         {
 
-            $value = data[0]['value'];
+            var $value = data[0]['value'];
 
             if ($value == 1){
                 $('.rating').find(':radio[name=rate][value="1"]').prop('checked', true);
@@ -96,4 +146,5 @@ $(function ()
 
         type: 'GET'
     });
-});
+});*/
+

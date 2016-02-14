@@ -88,6 +88,7 @@ Route::get('profile/{id}/delete-song/{idSong}', array('as' => 'delete_song', 'us
 //Ratings routes TODO:doradi rute za raitings
 Route::post('/ratings', array('as' => 'store_ratings_song', 'uses' => 'RatingsSongsController@store'));
 Route::get('/ratings', array('as' => 'ratings_value', 'uses' => 'RatingsSongsController@ratingsValue'));
+Route::get('/ratings/song', array('as' => 'song_info', 'uses' => 'RatingsSongsController@songInfo'));
 
 // Add this route for checkout or submit form to pass the item into paypal
 Route::post('payment', array('as' => 'payment', 'uses' => 'PayPalController@postPayment'));

@@ -7,11 +7,11 @@
 <div class="audio-player">
     <audio id="audio-player" controls>
         @foreach($user->Song as $songs)
-            <source src="/users/{{$user->slug}}/songs/{{$songs->song}}" type="audio/mp3" title="{{$songs->name}}">
+            <source class="current-song" src="/users/{{$user->slug}}/songs/{{$songs->song}}" type="audio/mp3" title="{{$songs->name}}">
         @endforeach
         Your browser does not support the audio element.
     </audio>
-        <p>Ime pjesme</p>
+        <p id="song-name">Unknown</p>
         @include('ratings')
 </div>
 

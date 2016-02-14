@@ -40,24 +40,57 @@ class RatingsSongsController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        $value = $request->get('rate');
-        //dd($test);
 
-        Rating::create(array(
-            'song_id' => $request->get('songId'),
-            'user_id' => \Auth::user()->id,
-            'value' => $value
-        ));
+        $value = $request->get('rate');
+        $songId = $request->get('songId');
+
+
+        //TODO:pametnije napravit funkciju u bazi nego ovdje se zafrkavat...
+        $rating = DB::select('select * from ratings where user_id = ? and song_id = ?', array(\Auth::user()->id, $songId));
+        //$rating = DB::table('ratings')->where('user_id', '=', \Auth::user()->id, 'AND', 'song_id', '=', $songId)->get();
+
+        if ($rating==NULL){
+            Rating::create(array(
+                'song_id' => $request->get('songId'),
+                'user_id' => \Auth::user()->id,
+                'value' => $value
+            ));
+        }
+        else
+        {
+            DB::update('update ratings set value = ? where user_id = ? and song_id = ?', array($value,\Auth::user()->id, $songId));
+        }
 
         return $value;
     }
 
-    public function ratingsValue()
+    public function ratingsValue(Request $request)
     {
-        $rating = DB::table('ratings')->where('user_id', '=', \Auth::user()->id)->get();
+        $songId = $request->get('songId');
+        $rating = DB::select('select * from ratings where user_id = ? and song_id = ?', array(\Auth::user()->id, $songId));
 
         return $rating;
+    }
+
+    public function songInfo(Request $request)
+    {
+        $source = $request->get('source');
+
+        $control=0;
+        $song = '';
+        //TODO:this if could cause problems maybe, check it later
+        for ($i=10; $i<strlen($source);$i++){
+            if ($source[$i-6]=='s' && $source[$i-5]=='o' && $source[$i-4]=='n' && $source[$i-3]=='g' && $source[$i-2]=='s' && $source[$i-1]=='/'){
+                $control=1;
+            }
+
+            if ($control)
+                $song = $song.$source[$i];
+        }
+
+        $song = DB::table('songs')->where('song', '=', $song)->get();
+
+        return $song;
     }
 
     /**

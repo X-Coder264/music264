@@ -137,12 +137,12 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        //Barryvdh\DomPDF\ServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         'Zizaco\Entrust\EntrustServiceProvider',
 
-        //Barryvdh\Debugbar\ServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
 
         'Illuminate\Html\HtmlServiceProvider',
 

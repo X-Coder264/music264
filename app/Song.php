@@ -23,4 +23,9 @@ class Song extends Model implements SluggableInterface
     {
         return $this->belongsTo('Artsenal\User','user_id', 'id');
     }
+
+    public function Rating(){
+
+        return $this->hasMany('Artsenal\Rating');
+    }
 }
