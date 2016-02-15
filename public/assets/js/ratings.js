@@ -6,6 +6,7 @@
 $(document).ready(function(){
     var vid = document.getElementById("audio-player");
 
+
     vid.onloadedmetadata = function() {
 
         $.ajax({
@@ -113,38 +114,3 @@ $('.rating').click(function(event) {
         type: 'POST'
     });
 });
-/*
-$(function ()
-{
-
-    $.ajax({
-        url: '/ratings',
-        data: {songId: song['id']},
-
-        dataType: 'json',
-        success: function(data)
-        {
-
-            var $value = data[0]['value'];
-
-            if ($value == 1){
-                $('.rating').find(':radio[name=rate][value="1"]').prop('checked', true);
-            }
-            else  if ($value == 2){
-                $('.rating').find(':radio[name=rate][value="2"]').prop('checked', true);
-            }
-            else  if ($value == 3){
-                $('.rating').find(':radio[name=rate][value="3"]').prop('checked', true);
-            }
-            else  if ($value == 4){
-                $('.rating').find(':radio[name=rate][value="4"]').prop('checked', true);
-            }
-            else  if ($value == 5){
-                $('.rating').find(':radio[name=rate][value="5"]').prop('checked', true);
-            }
-        },
-
-        type: 'GET'
-    });
-});*/
-

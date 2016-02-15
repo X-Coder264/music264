@@ -17,7 +17,8 @@ class CreateSongsTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->integer('rating');
+            $table->decimal('rating',10,4);
+            $table->integer('numberOfVotes');
             //$table->integer('album_id')->unsigned();
             $table->string('name');
             $table->string('description');

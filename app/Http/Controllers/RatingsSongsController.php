@@ -44,10 +44,13 @@ class RatingsSongsController extends Controller
         $value = $request->get('rate');
         $songId = $request->get('songId');
 
+        //Updating total rating of a song in database
+
+
 
         //TODO:pametnije napravit funkciju u bazi nego ovdje se zafrkavat...
         $rating = DB::select('select * from ratings where user_id = ? and song_id = ?', array(\Auth::user()->id, $songId));
-        //$rating = DB::table('ratings')->where('user_id', '=', \Auth::user()->id, 'AND', 'song_id', '=', $songId)->get();
+
 
         if ($rating==NULL){
             Rating::create(array(
@@ -55,10 +58,22 @@ class RatingsSongsController extends Controller
                 'user_id' => \Auth::user()->id,
                 'value' => $value
             ));
+
+            //TODO: this should definetly be done in database
+            $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
+            $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value) / ($songRating[0]->numberOfVotes + 1);
+            DB::table('songs')->where('id', $songId)->increment('numberOfVotes');
+            DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
+
         }
         else
         {
             DB::update('update ratings set value = ? where user_id = ? and song_id = ?', array($value,\Auth::user()->id, $songId));
+
+            //TODO: this should definetly be done in database
+            $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
+            $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value - $rating[0]->value) / ($songRating[0]->numberOfVotes);
+            DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
         }
 
         return $value;
