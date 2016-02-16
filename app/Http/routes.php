@@ -85,6 +85,11 @@ Route::get('profile/{id}/music/add-song', array('as' => 'add_song', 'uses' => 'M
 Route::post('profile/{id}/music/add-song', array('as' => 'store_song', 'uses' => 'MusicController@store'));
 Route::get('profile/{id}/delete-song/{idSong}', array('as' => 'delete_song', 'uses' => 'MusicController@destroy'));
 
+Route::get('event', array('as' => 'event', 'middleware' => ['auth', 'role:artist|Venue'], 'uses' => 'EventController@index'));
+Route::post('event', array('as' => 'event', 'middleware' => ['auth', 'role:artist|Venue'], 'uses' => 'EventController@store'));
+Route::get('getVenues', 'EventController@getVenues');
+Route::get('getArtists', 'EventController@getArtists');
+
 //Ratings routes TODO:doradi rute za raitings
 Route::post('/ratings', array('as' => 'store_ratings_song', 'uses' => 'RatingsSongsController@store'));
 Route::get('/ratings', array('as' => 'ratings_value', 'uses' => 'RatingsSongsController@ratingsValue'));

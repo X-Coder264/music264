@@ -21,6 +21,9 @@
                     @if(Entrust::hasRole('artist'))
                     <a href="{{URL::route('music', $user->slug)}}" class="btn btn-info" role="button">Music</a>  <br>
                     @endif
+                    @if(Entrust::hasRole('artist') || Entrust::hasRole('Venue'))
+                        <a href="{{URL::route('event')}}" class="btn btn-info" role="button">Create a new event</a>  <br>
+                    @endif
                     @if(Auth::user()->can('see-paypal-transactions') || $user->id == Auth::user()->id)
                         <a href="{{URL::route('transactions', $user->slug)}}" class="btn btn-info" role="button">Your PayPal transactions</a>
                     @endif
