@@ -93,7 +93,7 @@
 
     @if(Entrust::hasRole('Venue'))
         <script>
-            var venues = new Bloodhound({
+            var artists = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 prefetch: {
@@ -101,7 +101,7 @@
                     ttl: 0
                 }
             });
-            venues.initialize();
+            artists.initialize();
 
             var elt = $('#artist');
             elt.tagsinput({
@@ -110,7 +110,7 @@
                 typeaheadjs: {
                     name: 'artists',
                     displayKey: 'text',
-                    source: venues.ttAdapter()
+                    source: artists.ttAdapter()
                 }
             });
         </script>

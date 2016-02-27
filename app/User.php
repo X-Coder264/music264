@@ -2,6 +2,7 @@
 
 namespace Artsenal;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 use Illuminate\Auth\Authenticatable;
@@ -62,6 +63,15 @@ class User extends Model implements AuthenticatableContract,
     public function getAllServices($id){
         $services = DB::table('service_user')->join('services', 'service_id', '=', 'services.id')->where('user_id', $id)->get();
         return $services;
+    }
+
+    public function getAllUpcomingEvents(){
+        if($this->hasRole('artist'))
+            $events = DB::table('events')->where('artist_user_id', $this->id)->where('time', '>', Carbon::now())->get();
+        else
+            $events = DB::table('events')->where('venue_user_id', $this->id)->where('time', '>', Carbon::now())->get();
+
+        return $events;
     }
 
     public function Album(){

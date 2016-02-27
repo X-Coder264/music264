@@ -22,8 +22,14 @@ class UserController extends Controller
     public function show($slug){
         $user = User::findBySlug($slug);
         $services = $user->getAllServices($user->id);
+
+        $events = [];
+        if($user->hasRole(['artist', 'Venue'])) {
+            $events = $user->getAllUpcomingEvents();
+        }
         $status = Status::Where('user_id', '=', $user->id)->get();
-        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services]);
+
+        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events]);
     }
 
     public function showProfileSettings() {

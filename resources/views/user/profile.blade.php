@@ -73,6 +73,17 @@
                 </ul>
             @endif
             </div>
+
+            <div>
+                @if(empty($events))
+                    <p>There are no upcoming events.</p>
+                @else
+                    @foreach($events as $event)
+                        <p>{{$event->name}} {{$event->time}}</p>
+                        @endforeach
+                @endif
+            </div>
+
             <div id="statuses5">
                 <form method="POST" class="form-horizontal">
                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">

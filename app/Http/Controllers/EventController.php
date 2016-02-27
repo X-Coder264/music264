@@ -39,14 +39,28 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        DB::table('events')->insert([
-            'user_id' => Auth::id(),
-            'name' => $request->name,
-            'description' => $request->description,
-            'time' => $request->time,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
+        if ($request->has('artist')) {
+            DB::table('events')->insert([
+                'artist_user_id' => $request->artist,
+                'venue_user_id' => Auth::id(),
+                'name' => $request->name,
+                'description' => $request->description,
+                'time' => $request->time,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+        }
+        else{
+            DB::table('events')->insert([
+                'artist_user_id' => Auth::id(),
+                'venue_user_id' => $request->venue,
+                'name' => $request->name,
+                'description' => $request->description,
+                'time' => $request->time,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+        }
 
         // TODO: Redirect back with a proper message
         return redirect('/');

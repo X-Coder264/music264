@@ -15,8 +15,10 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('artist_user_id')->unsigned()->index();
+            $table->foreign('artist_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('venue_user_id')->unsigned()->index();
+            $table->foreign('venue_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('description');
             $table->dateTime('time');
             $table->timestamps();
