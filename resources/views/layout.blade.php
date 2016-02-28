@@ -5,11 +5,15 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('blog.title') }} Artsenal</title>
+        <title>{{ config('blog.title') }} SoundFeed</title>
+
+
 
         <link href="/assets/css/app.css" rel="stylesheet">
+        <link href="/assets/css/ct-navbar.css" rel="stylesheet" />
         <link href="/assets/css/bootstrap-switch.min.css" rel="stylesheet">
         <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link href="/assets/css/icon-stroke-int.css" rel="stylesheet" />
 
         @yield('styles')
 
@@ -21,25 +25,31 @@
     </head>
 
     <body>
-
-        <nav class="navbar navbar-default navbar-static-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">{{ config('blog.title') }} Artsenal</a>
-                        <!--<div class="logo-fixed"><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcScMEmPGz6veIcjLF691T14FGpthGmyJvrCALrqE1iF7WAOf7cq0FSieg"></a></div>-->
-                </div>
-                <div class="navbar-collapse collapse">
-                    @include('partials.navigation')
-                </div>
+        <div id="navbar-full">
+            <div id="navbar">
+                <nav class="navbar navbar-ct-orange navbar-fixed-top" role="navigation">
+                <!--<nav class="navbar navbar-default navbar-static-top" role="navigation">-->
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/">{{ config('blog.title') }} SoundFeed</a>
+                                <!--<div class="logo-fixed"><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcScMEmPGz6veIcjLF691T14FGpthGmyJvrCALrqE1iF7WAOf7cq0FSieg"></a></div>-->
+                        </div>
+                        <div class="collapse navbar-collapse">
+                            @include('partials.navigation')
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </nav>
+        </div>
 
-        <div>
+
+        <div class="container">
             @yield('content')
         </div>
 
@@ -67,5 +77,7 @@
                 });
             })
         </script>
+        <script src="/assets/js/navbar.js"></script>
+
     </body>
 </html>

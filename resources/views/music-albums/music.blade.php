@@ -1,11 +1,4 @@
-@extends ('layout')
 
-@section ('content')
-
-<!--
-    <div class="form-group">
-
-    </div>-->
 <div class="container" style="text-align: center;">
     <div class="span4" style="display: inline-block;margin-top:100px;">
 
@@ -30,6 +23,5 @@
 
     </div>
 </div>
+{{--@include('player')--}}
 
-@include('player')
-@endsection

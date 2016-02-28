@@ -1,6 +1,4 @@
-@extends('layout')
-@section('content')
-    @if(\Auth::user()->can('see-paypal-transactions') || \Auth::user()->id == $OwnerID)
+@if(\Auth::user()->can('see-paypal-transactions') || \Auth::user()->id == $user->id)
             @if(!empty($userTransactions))
                 <table class="table table-striped table-bordered table-hover table-responsive">
                     <thead>
@@ -34,4 +32,3 @@
     @else
         <p>You don't have the permission to see this.</p>
     @endif
-@endsection
