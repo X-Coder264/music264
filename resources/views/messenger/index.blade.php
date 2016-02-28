@@ -16,11 +16,11 @@
 
             <br>
 
+        <a class="btn btn-info btn-lg" href="{{URL::to('messages/create')}}">Create new message</a>
        @if($user->threads->count() > 0)
            <div class="container inbox">
-               <a class="btn btn-info btn-lg" href="{{URL::to('messages/create')}}">Create new message</a>
             @foreach($user->threads as $thread)
-                <?php $style = $thread->isUnread($currentUserId) ? 'bg-new;' : ''; ?>
+                <?php $style = $thread->isUnread($currentUserId) ? 'bg-new' : ''; ?>
                     <div class="message {!!$style!!}">
                     <div class="row">
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 content">
