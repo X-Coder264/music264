@@ -1,7 +1,10 @@
 @extends('layout')
+@section('styles')
+    <link href="/assets/css/custom.css" rel="stylesheet">
+@stop
 
 @section('content')
-    <div class="col-md-6">
+    <div class="container inbox">
         <h1>{!! $thread->subject !!}</h1>
 
         <div>Participants:
@@ -10,43 +13,37 @@
         @endforeach
         </div>
         @foreach($thread->messages as $message)
-            <div class="media">
-                <a class="pull-left" href="#">
-                    <img src="//www.gravatar.com/avatar/{!! md5($message->user->email) !!}?s=64" alt="{!! $message->user->name !!}" class="img-circle">
-                </a>
-                <div class="media-body">
-                    <h5 class="media-heading">{!! $message->user->name !!}</h5>
-                    @if($message->user->hasRole('Service Provider'))
-                    <p style = "background-color: yellow;">{!! $message->body !!}</p>
-                        @elseif($message->user->hasRole('artist'))
-                        <p style = "background-color: red;">{!! $message->body !!}</p>
-                        @else
-                        <p style = "background-color: lightgrey;">{!! $message->body !!}</p>
-                    @endif
-                    <div class="text-muted"><small>Posted {!! $message->created_at->diffForHumans() !!}</small></div>
+            <div class="message">
+                <div class="row">
+                    <img style="float:left; max-width: 130px;;"  src="//www.gravatar.com/avatar/{!! md5($message->user->email) !!}?s=64" alt="{!! $message->user->name !!}">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 content">
+                        <a href="#" class="author">{!! $message->user->name !!}</a>
+                        <br>
+                        <p class="message_text">
+                            {!! $message->body !!}
+                        </p>
+                        <a href="#" class="message_number">{!! $message->created_at->diffForHumans() !!}</a>
+                    </div>
                 </div>
             </div>
+
         @endforeach
 
-        <h2>Add a new message</h2>
-        {!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT']) !!}
-        <!-- Message Form Input -->
-        <div class="form-group">
-            {!! Form::textarea('message', null, ['class' => 'form-control']) !!}
+        <div class="container">
+            <div class="panel panel-default new_reply">
+                <div class="panel-heading">
+                    <h4>Add a new message</h4>
+                </div>
+                <div class="panel-body">
+                    <!-- FORM -->
+                    {!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT']) !!}
+                        <div class="form-group">
+                            <textarea class="form-control" rows="6" id="reply"></textarea>
+                        </div>
+                    {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-orange']) !!}
+                    {!! Form::close() !!}
+                </div>
+            </div>
         </div>
-
-        {{--@if($users->count() > 0)
-        <div class="checkbox">
-            @foreach($users as $user)
-                <label title="{!! $user->name !!}"><input type="checkbox" name="recipients[]" value="{!! $user->id !!}">{!! $user->name !!}</label>
-            @endforeach
-        </div>
-        @endif --}}
-
-        <!-- Submit Form Input -->
-        <div class="form-group">
-            {!! Form::submit('Submit', ['class' => 'btn btn-warning form-control']) !!}
-        </div>
-        {!! Form::close() !!}
     </div>
 @stop

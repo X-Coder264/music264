@@ -34,9 +34,9 @@ class UserController extends Controller
 
     public function showProfileSettings() {
         $user = User::findOrFail(\Auth::user()->id);
-        $services = DB::table('services')->get();
+        $services = DB::table('services')->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')->select('services.id', 'services.service', 'service_categories.category')->get();
         $checkedServicesID = DB::table('service_user')->where('user_id', \Auth::user()->id)->lists('service_id');
-        $checkedServices = DB::table('service_user')->join('services','service_user.service_id' ,'=' ,'services.id')->where('user_id', \Auth::user()->id)->select('service_id', 'name', 'price', 'currency', 'description', 'approved')->get();
+        $checkedServices = DB::table('service_user')->join('services','service_user.service_id' ,'=' ,'services.id')->where('user_id', \Auth::user()->id)->select('service_id', 'service', 'price', 'currency', 'description', 'approved')->get();
         return view('user.settings', ['user' => $user, 'services' => $services, 'checkedServicesID' => $checkedServicesID, 'checkedServices' => $checkedServices]);
     }
 

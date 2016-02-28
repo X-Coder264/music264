@@ -49,9 +49,7 @@ Route::get('/contact', function () {
     return view('contact.contact');
 });
 
-Route::get('/services', function () {
-    return view('services.services');
-});
+Route::get('/services', 'ServiceController@index');
 
 // PayPal transactions routes
 Route::get('profile/{id}/transactions', array('as' => 'transactions', 'uses' => 'PayPalController@UserTransactions'));

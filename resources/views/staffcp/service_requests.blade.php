@@ -22,7 +22,7 @@
                 <tbody>
                 @for($i=0; $i<count($NonApprovedServices); $i++)
                     <tr>
-                        <td>{{$NonApprovedServices[$i]->name}}</td>
+                        <td>{{$NonApprovedServices[$i]->service}}</td>
                         <td><p>{{$NonApprovedServices[$i]->description}}</p></td>
                         <td><p>{{$NonApprovedServices[$i]->price}} {{$NonApprovedServices[$i]->currency}}</p></td>
                         <td>
