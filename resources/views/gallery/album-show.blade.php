@@ -25,7 +25,7 @@
     <div class="row">
         @foreach($album->Photos as $photo)
             <div class="col-lg-3">
-                <div class="thumbnail" style="max-height: 350px;min-height: 350px;">
+                <div class="thumbnail" style="min-height: 300px;">
                     <a href="/users/{{$user->slug}}/albums/{{$album->slugAlbum}}/{{$photo->image}}"  data-lightbox="{{$album->slugAlbum}}">
                     <img alt="{{$album->name}}" src="/users/{{$user->slug}}/albums/{{$album->slugAlbum}}/{{$photo->image}}">
                     </a>

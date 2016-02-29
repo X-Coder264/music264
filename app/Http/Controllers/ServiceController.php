@@ -17,6 +17,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = DB::table('services')->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')->select('services.slug', 'services.service', 'service_categories.category')->get();
+
         return view('services.services', compact('services'));
     }
 

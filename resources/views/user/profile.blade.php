@@ -17,45 +17,42 @@
 
 
         <div>
-            <div class="card hovercard row">
-                <div class="card-background">
-                    <img class="card-bkimg" alt="Thumbnail Image" src="{{ asset($user -> image_path) }}">
+                <div class="card hovercard">
+                    <div class="card-background">
+                        <img class="card-bkimg" alt="Thumbnail Image" src="/imgs/background_default_grey.jpg">
+                    </div>
+
+                    @if( $user -> image_path == "" )
+                        <div class="useravatar">
+                            <img class="card-bkimg" alt="Thumbnail Image" src="/imgs/profile_default_avatar.jpg">
+                        </div>
+                    @else
+                        <div class="useravatar">
+                            <img class="card-bkimg" alt="Thumbnail Image" src="{{ asset($user -> image_path) }}">
+                        </div>
+                    @endif
+
+                    <div class="card-info"> <span class="card-title">{{ $user->name }}</span></div>
+
+                    <!--BUTTONS FOR MESSAGE AND FOLLOW-->
+                    @if($user->id != Auth::user()->id)
+                        <div class="col-md-2 col-md-offset-10" role="group" aria-label="..." style="position:absolute; left:0; top:15px;"> <!--TODO:Ovaj position vjerovatno moze pametnije-->
+
+                            <a href="{{URL::route('messages.create', $user->slug)}}" class="btn btn-default col-md-12" role="button">Message {{$user->name}}</a>
+
+                            <form method="POST" class="form-horizontal">
+                                {!! csrf_field() !!}
+
+                                    @if(in_array(Auth::user()->id, $user->getAllFollowers($user->id)))
+                                        <button type="submit" name="id" class="btn btn-default col-md-12" value="{{ Auth::user()->id }}" style="top:5px">Unfollow</button>
+                                    @else
+                                        <button type="submit" name="id" class="btn btn-default col-md-12" value="{{ Auth::user()->id }}" style="top:5px">Follow</button>
+                                    @endif
+
+                            </form>
+                        </div>
+                    @endif
                 </div>
-
-                @if( $user -> image_path == "" )
-                    <div class="useravatar">
-                        <div class="card-bkimg pe-7s-user-female"></div>
-                    </div>
-                @else
-                    <div class="useravatar">
-                        <img class="card-bkimg" alt="Thumbnail Image" src="{{ asset($user -> image_path) }}">
-                    </div>
-                @endif
-
-                <div class="card-info"> <span class="card-title">{{ $user->name }}</span>
-
-                </div>
-
-                <!--BUTTONS FOR MESSAGE AND FOLLOW-->
-                @if($user->id != Auth::user()->id)
-                    <div class="col-md-2 col-md-offset-10" role="group" aria-label="...">
-
-                        <a href="{{URL::route('messages.create', $user->slug)}}" class="btn btn-default col-md-12" role="button">Message {{$user->name}}</a>
-
-
-                        <form method="POST" class="form-horizontal">
-                            {!! csrf_field() !!}
-
-                                @if(in_array(Auth::user()->id, $user->getAllFollowers($user->id)))
-                                    <button type="submit" name="id" class="btn btn-default col-md-12" value="{{ Auth::user()->id }}">Unfollow</button>
-                                @else
-                                    <button type="submit" name="id" class="btn btn-default col-md-12" value="{{ Auth::user()->id }}">Follow</button>
-                                @endif
-
-                        </form>
-                    </div>
-                @endif
-            </div>
 
 
             <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
