@@ -85,4 +85,14 @@ class ServiceController extends Controller
     {
         //
     }
+
+    public function serviceIndex($slug)
+    {
+        //usluga, studio, rejting, cijena, opis?!
+        $services = DB::table('service_user')->join('services', 'service_user.service_id', '=', 'services.id')->where('service_user.approved', '=', 0)->where('services.slug', '=', $slug)->get();
+        //dd($services);
+
+        return view('services.service', compact('services'));
+
+    }
 }

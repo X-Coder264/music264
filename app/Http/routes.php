@@ -50,6 +50,7 @@ Route::get('/contact', function () {
 });
 
 Route::get('/services', 'ServiceController@index');
+Route::get('/service/{slug}', 'ServiceController@serviceIndex');
 
 // PayPal transactions routes
 Route::get('profile/{id}/transactions', array('as' => 'transactions', 'uses' => 'PayPalController@UserTransactions'));
