@@ -10,7 +10,7 @@ use Artsenal\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
-use Cmgmyr\Messenger\Models\Thread;
+use Artsenal\Thread;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -33,8 +33,20 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $currentUserId = Auth::user()->id;
-        $user = User::find($currentUserId)->with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->first();
+        // TODO: research why $user = User::find($currentUserId)->with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->first(); doensn't work
+        $currentUserId = Auth::id();
+        $user = User::with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->get();
+
+        $x = 0;
+        for ($i=0; $i<count($user); $i++){
+            if($user[$i]->id == Auth::id()){
+                $x = $i;
+                break;
+            }
+        }
+
+        $user = $user[$x];
+
         return view('messenger.index', compact('user', 'currentUserId'));
     }
     /**
@@ -175,5 +187,14 @@ class MessageController extends Controller
         }
 
         return json_encode($users2);
+    }
+
+    public function threads()
+    {
+        return $this->belongsToMany(Thread::class, 'messages', 'user_id', 'thread_id')
+            ->withTimestamps()
+            ->withPivot(['body'])
+            ->groupBy('thread_id')
+            ->latest('updated_at');
     }
 }

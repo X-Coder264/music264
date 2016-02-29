@@ -54,7 +54,7 @@ class Thread extends Eloquent
      */
     public function messages()
     {
-        return $this->hasMany(Config::get('messenger.message_model'), 'thread_id', 'id');
+        return $this->hasMany(Config::get('messenger.message_model'), 'thread_id', 'id')->orderBy('created_at', 'desc');
     }
 
     /**
@@ -307,18 +307,18 @@ class Thread extends Eloquent
         $usersTable = $this->getUsersTable();
 
         switch ($dbDriver) {
-        case 'pgsql':
-        case 'sqlite':
-            $columnString = implode(" || ' ' || " . $tablePrefix . $usersTable . '.', $columns);
-            $selectString = '(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
-            break;
-        case 'sqlsrv':
-            $columnString = implode(" + ' ' + " . $tablePrefix . $usersTable . '.', $columns);
-            $selectString = '(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
-            break;
-        default:
-            $columnString = implode(", ' ', " . $tablePrefix . $usersTable . '.', $columns);
-            $selectString = 'concat(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
+            case 'pgsql':
+            case 'sqlite':
+                $columnString = implode(" || ' ' || " . $tablePrefix . $usersTable . '.', $columns);
+                $selectString = '(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
+                break;
+            case 'sqlsrv':
+                $columnString = implode(" + ' ' + " . $tablePrefix . $usersTable . '.', $columns);
+                $selectString = '(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
+                break;
+            default:
+                $columnString = implode(", ' ', " . $tablePrefix . $usersTable . '.', $columns);
+                $selectString = 'concat(' . $tablePrefix . $usersTable . '.' . $columnString . ') as name';
         }
 
         return $selectString;
