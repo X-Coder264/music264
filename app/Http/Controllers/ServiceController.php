@@ -16,7 +16,10 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $services = DB::table('services')->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')->select('services.slug', 'services.service', 'service_categories.category')->get();
+        $services = DB::table('services')
+                    ->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')
+                    ->select('services.slug', 'services.service', 'service_categories.category')
+                    ->get();
         return view('services.services', compact('services'));
     }
 
@@ -89,8 +92,13 @@ class ServiceController extends Controller
     public function serviceIndex($slug)
     {
         //usluga, studio, rejting, cijena, opis?!
-        $services = DB::table('service_user')->join('services', 'service_user.service_id', '=', 'services.id')->where('service_user.approved', '=', 0)->where('services.slug', '=', $slug)->get();
-        //dd($services);
+        $services = DB::table('service_user')
+                    ->join('services', 'service_user.service_id', '=', 'services.id')
+                    ->join('users', 'service_user.user_id', '=', 'users.id')
+                    ->where('service_user.approved', '=', 1)
+                    ->where('services.slug', '=', $slug)
+                    ->select('services.service','service_user.price','service_user.currency','service_user.description','users.name','users.slug')
+                    ->get();
 
         return view('services.service', compact('services'));
 
