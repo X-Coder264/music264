@@ -33,7 +33,7 @@
                     <div class="text-container message bg-new">
                         <a href="/profile/{{$service->slug}}"><p>{{$service->name}} - {{$service->service}} <span style="float:right">{{$service->price}} {{$service->currency}}</span></p></a>
                         <div class="content hideContent">
-                        {{$service->description}}
+                        <?php echo nl2br($service->description); ?>
                         </div>
                         <div class="show-more">
                             <a href="#">Show more</a>
