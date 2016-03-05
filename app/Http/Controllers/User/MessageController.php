@@ -55,7 +55,7 @@ class MessageController extends Controller
 
         $userId = Auth::user()->id;
         $users = User::whereIn('id', $thread->participantsUserIds($userId))->get();
-        $thread->markAsRead($thread->id, $userId);
+        $thread->markAsRead($userId);
         return view('messenger.show', compact('thread', 'users'));
     }
     /**
@@ -140,7 +140,7 @@ class MessageController extends Controller
             ]
         );
         // Add replier as a participant
-        $participant = Participant::create(
+        $participant = Participant::firstOrCreate(
             [
                 'thread_id' => $thread->id,
                 'user_id'   => Auth::user()->id,

@@ -196,14 +196,12 @@ class Thread extends Eloquent
      *
      * @param int $userId
      */
-    public function markAsRead($threadId, $userId)
+    public function markAsRead($userId)
     {
         try {
-            DB::table('participants')->where('thread_id', $threadId)
-                ->where('user_id', $userId)
-                ->update([
-                    'last_read' => Carbon::now()
-                ]);
+            $participant = $this->getParticipantFromUser($userId);
+            $participant->last_read = new Carbon();
+            $participant->save();
         } catch (ModelNotFoundException $e) {
             // do nothing
         }
