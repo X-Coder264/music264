@@ -26,7 +26,6 @@
                     </div>
                 </div>
             </div>
-
         @endforeach
 
         <div class="container">
@@ -38,7 +37,7 @@
                     <!-- FORM -->
                     {!! Form::open(['route' => ['messages.update', $thread->id], 'method' => 'PUT']) !!}
                         <div class="form-group">
-                            <textarea class="form-control" rows="6" id="reply"></textarea>
+                            <textarea class="form-control" rows="6" id="reply" name="message"></textarea>
                         </div>
                     {!! Form::submit('Submit', ['class' => 'btn btn-primary btn-orange']) !!}
                     {!! Form::close() !!}

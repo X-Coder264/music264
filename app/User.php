@@ -86,9 +86,8 @@ class User extends Model implements AuthenticatableContract,
 
     public function threads()
     {
-        return $this->belongsToMany(Thread::class, 'messages', 'user_id', 'thread_id')
+        return $this->belongsToMany(Thread::class, 'participants', 'user_id', 'thread_id')
             ->withTimestamps()
-            ->withPivot(['body'])
             ->groupBy('thread_id')
             ->latest('updated_at');
     }

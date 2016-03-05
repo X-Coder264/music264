@@ -33,19 +33,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        // TODO: research why $user = User::find($currentUserId)->with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->first(); doensn't work
         $currentUserId = Auth::id();
-        $user = User::with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->get();
-
-        $x = 0;
-        for ($i=0; $i<count($user); $i++){
-            if($user[$i]->id == Auth::id()){
-                $x = $i;
-                break;
-            }
-        }
-
-        $user = $user[$x];
+        $user = User::with('threads', 'threads.messages', 'threads.participants', 'threads.messages.user')->find($currentUserId);
 
         return view('messenger.index', compact('user', 'currentUserId'));
     }
@@ -63,12 +52,10 @@ class MessageController extends Controller
             Session::flash('error_message', 'The thread with ID: ' . $id . ' was not found.');
             return redirect('messages');
         }
-        // show current user in list if not a current participant
-        // $users = User::whereNotIn('id', $thread->participantsUserIds())->get();
-        // don't show the current user in list
+
         $userId = Auth::user()->id;
         $users = User::whereIn('id', $thread->participantsUserIds($userId))->get();
-        $thread->markAsRead($userId);
+        $thread->markAsRead($thread->id, $userId);
         return view('messenger.show', compact('thread', 'users'));
     }
     /**
@@ -79,13 +66,6 @@ class MessageController extends Controller
     public function create()
     {
         return view('messenger.create');
-    }
-
-    public function create2($slug)
-    {
-        $user = User::where('slug', $slug)->get();
-
-        return view('messenger.create2', compact('user'));
     }
 
     /**
@@ -160,7 +140,7 @@ class MessageController extends Controller
             ]
         );
         // Add replier as a participant
-        $participant = Participant::firstOrCreate(
+        $participant = Participant::create(
             [
                 'thread_id' => $thread->id,
                 'user_id'   => Auth::user()->id,
@@ -187,14 +167,5 @@ class MessageController extends Controller
         }
 
         return json_encode($users2);
-    }
-
-    public function threads()
-    {
-        return $this->belongsToMany(Thread::class, 'messages', 'user_id', 'thread_id')
-            ->withTimestamps()
-            ->withPivot(['body'])
-            ->groupBy('thread_id')
-            ->latest('updated_at');
     }
 }
