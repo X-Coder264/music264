@@ -14,6 +14,12 @@
             </div>
         @endif
 
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
 
 
         <div>
@@ -150,7 +156,7 @@
                             @foreach($services as $service)
                                 @if($service->approved == true)
                                     {!! Form::open(['route' => 'payment']) !!}
-                                    <div>{{$service->name}} {{$service->price}} {{$service->currency}}</div>
+                                    <div>{{$service->service}} {{$service->price}} {{$service->currency}}</div>
                                     <input type="hidden" name="service_id" value="{{$service->service_id}}">
                                     <input type="hidden" name="user_id" value="{{$service->user_id}}">
                                     <button type="submit" class="btn btn-warning">Order this service</button>

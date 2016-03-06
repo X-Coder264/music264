@@ -51,9 +51,8 @@ Route::get('/contact', function () {
 
 Route::get('/services', 'ServiceController@index');
 Route::get('/service/{slug}', 'ServiceController@serviceIndex');
-
-// PayPal transactions routes
-Route::get('profile/{id}/transactions', array('as' => 'transactions', 'uses' => 'PayPalController@UserTransactions'));
+Route::get('/service/comment/{id}', 'ServiceController@serviceRateIndex');
+Route::post('/service/comment/{id}', ['as' => 'comment_service', 'uses' => 'ServiceController@serviceRate']);
 
 Route::group(['prefix' => 'messages', 'middleware' => ['auth']], function () {
     Route::get('/', ['as' => 'messages', 'uses' => 'User\MessageController@index']);

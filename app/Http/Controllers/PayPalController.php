@@ -48,7 +48,7 @@ class PayPalController extends Controller
             ->join('users', 'service_user.user_id', '=', 'users.id')
             ->where('service_user.service_id', $service_requested['service_id'])
             ->where('service_user.user_id', $service_requested['user_id'])
-            ->select('service_user.*', 'services.name as service_name', 'users.name as user_name')
+            ->select('service_user.*', 'services.service as service_name', 'users.name as user_name')
             ->get();
 
         $payer = new Payer();
@@ -173,7 +173,7 @@ class PayPalController extends Controller
 
             $data['buyer_Artsenal_name'] = Auth::user()->name;
             $data['seller_Artsenal_name'] = DB::table('users')->where('id', '=', $payee_user_id)->value('name');
-            $data['bought_service_name'] = DB::table('services')->where('id', '=', $service_id)->value('name');
+            $data['bought_service_name'] = DB::table('services')->where('id', '=', $service_id)->value('service');
 
             $pdf = \PDF::loadView('PPInvoice', compact('data'));
 
@@ -212,19 +212,5 @@ class PayPalController extends Controller
             ->with('message', 'Payment failed');
     }
 
-    public function UserTransactions($slug){
-        $user = User::findBySlug($slug);
-        $userTransactions = DB::table('paypal_transactions')->where('payer_user_id', $user->id)->get();
-
-        $payeesNames = array();
-        $ServiceNames = array();
-
-        foreach($userTransactions as $userTransaction){
-            $payeesNames[] = DB::table('users')->where('id', '=', $userTransaction->payee_user_id)->value('name');
-            $ServiceNames[] = DB::table('services')->where('id', '=', $userTransaction->service_id)->value('name');
-        }
-
-        return view('user.transactions', ['userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames, 'OwnerID' => $user->id]);
-    }
 
 }

@@ -27,8 +27,8 @@
 
 <div class="container-fluid">
     <header>
-        <img src="/var/www/Artsenal/public/assets/logo.png" alt="Artsenal logo" style="float: right;">
-        <p style="float:right;">Artsenal</p>
+        <img src="/var/www/Artsenal/public/assets/logo.png" alt="SoundFeed logo" style="float: right;">
+        <p style="float:right;">SoundFeed</p>
         <div style="clear: both;"></div>
     </header>
 

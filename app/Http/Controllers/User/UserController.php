@@ -4,6 +4,7 @@ namespace Artsenal\Http\Controllers\User;
 
 use Artsenal\User;
 use Artsenal\Status;
+use Carbon\Carbon;
 use DB;
 use Request;
 use Artsenal\Http\Requests;
@@ -27,16 +28,59 @@ class UserController extends Controller
         if($user->hasRole(['artist', 'Venue'])) {
             $events = $user->getAllUpcomingEvents();
         }
+
         $status = Status::Where('user_id', '=', $user->id)->get();
 
-        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events]);
+        $userTransactions = DB::table('paypal_transactions')
+                            ->where('payer_user_id', $user->id)
+                            ->orderBy('transaction_time', 'asc')
+                            ->get();
+
+        $userTransactions2 = DB::table('paypal_transactions')
+                            ->join('service_ratings', 'paypal_transactions.transaction_id', '=', 'service_ratings.transaction_id')
+                            ->where('payer_user_id', $user->id)
+                            ->orderBy('transaction_time', 'asc')
+                            ->get();
+
+        $payeesNames = [];
+        $ServiceNames = [];
+        $AllTransactionIDs = [];
+        $RatedTransactionIDs = [];
+        $ratings = [];
+
+        foreach($userTransactions as $userTransaction){
+            $payeesNames[] = DB::table('users')->where('id', '=', $userTransaction->payee_user_id)->value('name');
+            $ServiceNames[] = DB::table('services')->where('id', '=', $userTransaction->service_id)->value('service');
+            $AllTransactionIDs[] = $userTransaction->transaction_id;
+        }
+
+        foreach($userTransactions2 as $userTransaction){
+            $RatedTransactionIDs[] = $userTransaction->transaction_id;
+        }
+
+        $ratings[] = DB::table('service_ratings')
+                    ->whereIn('transaction_id', $RatedTransactionIDs)
+                    ->orderBy('time', 'asc')
+                    ->value('value');
+
+        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events, 'userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames, 'RatedTransactionIDs' => $RatedTransactionIDs, 'ratings' => $ratings]);
     }
 
     public function showProfileSettings() {
         $user = User::findOrFail(\Auth::user()->id);
-        $services = DB::table('services')->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')->select('services.id', 'services.service', 'service_categories.category')->get();
-        $checkedServicesID = DB::table('service_user')->where('user_id', \Auth::user()->id)->lists('service_id');
-        $checkedServices = DB::table('service_user')->join('services','service_user.service_id' ,'=' ,'services.id')->where('user_id', \Auth::user()->id)->select('service_id', 'service', 'price', 'currency', 'description', 'approved')->get();
+        $services = DB::table('services')
+                    ->join('service_categories', 'services.service_categories_id', '=', 'service_categories.id')
+                    ->select('services.id', 'services.service', 'service_categories.category')
+                    ->orderBy('service_categories.id', 'asc')
+                    ->get();
+        $checkedServicesID = DB::table('service_user')
+                            ->where('user_id', \Auth::user()->id)
+                            ->lists('service_id');
+        $checkedServices = DB::table('service_user')
+                            ->join('services','service_user.service_id' ,'=' ,'services.id')
+                            ->where('user_id', \Auth::user()->id)
+                            ->select('service_id', 'service', 'price', 'currency', 'description', 'approved')
+                            ->get();
         return view('user.settings', ['user' => $user, 'services' => $services, 'checkedServicesID' => $checkedServicesID, 'checkedServices' => $checkedServices]);
     }
 
@@ -111,7 +155,7 @@ class UserController extends Controller
             foreach($NewServices as $newService){
                 if(!in_array($newService, $OldServicesID)){
                     DB::table('service_user')->insert([
-                        ['service_id' => $newService, 'user_id' => $user->id]
+                        ['service_id' => $newService, 'user_id' => $user->id, 'created_at' => Carbon::now()]
                     ]);
                 }
             }
@@ -143,7 +187,8 @@ class UserController extends Controller
                                          ->update([
                                              'price' => $ServicePrices[$i],
                                              'currency' => $ServiceCurrencies[$i],
-                                             'description' => $ServiceDescriptions[$i]
+                                             'description' => $ServiceDescriptions[$i],
+                                             'updated_at' => Carbon::now()
                                          ]);
                 $i++;
             }

@@ -2,8 +2,6 @@
 
 @section('content')
 
-    <div class="container">
-        <div class="row">
             <br>
                  <div class="panel panel-default">
                     <div class="panel-heading">Info</div>
@@ -108,8 +106,6 @@
 
                 </div>
             </div>
-        </div>
-    </div>
 @endsection
 
 @section('scripts')

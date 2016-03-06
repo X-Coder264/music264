@@ -4,6 +4,7 @@ namespace Artsenal\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 use Artsenal\Http\Requests;
 use Artsenal\Http\Controllers\Controller;
 
@@ -102,5 +103,28 @@ class ServiceController extends Controller
 
         return view('services.service', compact('services'));
 
+    }
+
+    public function serviceRateIndex($id)
+    {
+        $transaction = DB::table('paypal_transactions')
+                        ->where('transaction_id', '=', $id)
+                        ->select('transaction_id','payer_user_id')
+                        ->get();
+        return view('services.comment', compact('transaction'));
+    }
+
+    public function serviceRate(Request $request, $id)
+    {
+        if ($request->has('comment') && $request->has('rate')){
+            DB::table('service_ratings')->insert([
+                'transaction_id' => $id,
+                'comment' => $request->get('comment'),
+                'value' => $request->get('rate'),
+                'time' => Carbon::now()
+            ]);
+
+            return redirect()->route('profile', [\Auth::user()->slug])->with('status', 'Thank you for commenting!');
+        }
     }
 }

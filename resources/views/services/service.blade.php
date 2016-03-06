@@ -40,6 +40,10 @@
                         </div>
                     </div>
             @endforeach
+        @else
+            <div class="text-container message bg-new">
+                There are currently no available services of this type.
+            </div>
         @endif
     @endsection
 
