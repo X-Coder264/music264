@@ -1,6 +1,7 @@
 @extends('layout')
 @section('content')
-    @if(Auth::user()->id == $transaction[0]->payer_user_id)
+    @if(empty($check))
+        @if(Auth::user()->id == $transaction[0]->payer_user_id)
                 <br>
                 <div class="panel panel-default">
                     <div class="panel-heading">Comment and rate the delivered service</div>
@@ -38,7 +39,10 @@
 
                     </div>
                 </div>
+        @else
+            <div>You aren't supposed to be here.</div>
+        @endif
     @else
-        <div>You aren't supposed to be here.</div>
+    <div>You already rated this service.</div>
     @endif
 @stop

@@ -111,7 +111,10 @@ class ServiceController extends Controller
                         ->where('transaction_id', '=', $id)
                         ->select('transaction_id','payer_user_id')
                         ->get();
-        return view('services.comment', compact('transaction'));
+
+        $check = DB::table('service_ratings')->where('transaction_id', '=', $id)->get();
+
+        return view('services.comment', ['transaction' => $transaction, 'check' => $check]);
     }
 
     public function serviceRate(Request $request, $id)
