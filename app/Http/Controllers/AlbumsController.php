@@ -91,13 +91,13 @@ class AlbumsController extends Controller{
         if (!File::deleteDirectory($path))
         {
             Session::flash('flash_message', 'ERROR deleted the File!');
-            return Redirect::route('album', [$user->slug, $album->slugAlbum]);
+            return Redirect::route('profile', [$user->slug]);
         }
         else
         {
             $album->delete();
             Session::flash('flash_message', 'Successfully deleted the File!');
-            return Redirect::route('album', [$user->slug, $album->slugAlbum]);
+            return Redirect::route('profile', [$user->slug]);
         }
     }
 }

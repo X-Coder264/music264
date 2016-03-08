@@ -345,7 +345,7 @@ body{
     }
 
     .dropdown-menu:before{
-        border-bottom: 11px solid rgba(0, 0, 0, 0.2);
+        /*border-bottom: 11px solid rgba(0, 0, 0, 0.2);*/
         border-left: 11px solid rgba(0, 0, 0, 0);
         border-right: 11px solid rgba(0, 0, 0, 0);
         content: "";
