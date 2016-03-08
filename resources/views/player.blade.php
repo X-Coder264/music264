@@ -15,7 +15,7 @@
         @include('ratings')
 </div>
 
-@section('scripts')
+@section('scriptsPlayer')
     <script src="/assets/player/mediaelement-and-player.min.js"></script>
     <script src="/assets/player/custom.js"></script>
     <script src="/assets/player/mep-feature-playlist.js"></script>

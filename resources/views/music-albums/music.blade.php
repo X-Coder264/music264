@@ -1,7 +1,6 @@
 
 <div class="container" style="text-align: center;">
-    <div class="span4" style="display: inline-block;margin-top:100px;">
-
+    <div class="span4" style="display: inline-block;margin-top:10px;">
 
                 @if(Auth::user()->id == $user->id)
                 <a href="{{URL::route('add_song', $user->slug)}}">Add Song</a><br><br>
@@ -22,6 +21,7 @@
                 @endforeach
 
     </div>
+
 </div>
-{{--@include('player')--}}
+@include ('player')
 

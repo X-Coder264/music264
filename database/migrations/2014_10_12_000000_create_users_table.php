@@ -28,6 +28,10 @@ class CreateUsersTable extends Migration
             $table->string('thumbnail_path');
             $table->string('provider', 32);
             $table->string('provider_id');
+
+            $table->decimal('ratingSong', 10, 2);
+            $table->integer('numberOfVotes');
+
             $table->rememberToken();
             $table->timestamps();
         });

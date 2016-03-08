@@ -19,6 +19,8 @@ $(document).ready(function(){
             {
                 song = data[0];
                 var $songName = data[0]['name'];
+                songOwner = data[0]['user_id'];
+
                 $("#song-name").text($songName);
 
                 $.ajax({
@@ -85,7 +87,7 @@ $('.rating').click(function(event) {
         url: '/ratings',
 
         //TODO: sredi sta salje
-        data:{ rate: $starValue, songId: song['id']},
+        data:{ rate: $starValue, songId: song['id'], user: songOwner},
 
         headers: {
             'X-CSRF-TOKEN': $('input[name="_token"]').val()

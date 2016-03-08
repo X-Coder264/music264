@@ -2,6 +2,11 @@
 
 @section('styles')
     <link rel="stylesheet" href="/assets/css/profile-int.css" />
+
+    <link rel="stylesheet" href="/assets/player/mediaelementplayer.css" />
+    <link rel="stylesheet" href="/assets/player/mep-feature-playlist.css" />
+    <link rel="stylesheet" href="/assets/css/ratings.css" />
+
 @endsection
 
 @section('content')
@@ -25,7 +30,7 @@
         <div>
                 <div class="card hovercard">
                     <div class="card-background">
-                        <img class="card-bkimg" alt="Thumbnail Image" src="/imgs/background_default_grey.jpg">
+                        <img class="card-bkimg" alt="Thumbnail Image" src="/imgs/123.jpg">
                     </div>
 
                     @if( $user -> image_path == "" )
@@ -38,7 +43,7 @@
                         </div>
                     @endif
 
-                    <div class="card-info"> <span class="card-title">{{ $user->name }}</span></div>
+                    <div class="card-info"> <span class="card-title">{{$user->name}}</span></div>
 
                     <!--BUTTONS FOR MESSAGE AND FOLLOW-->
                     @if($user->id != Auth::user()->id)
@@ -58,6 +63,16 @@
                             </form>
                         </div>
                     @endif
+
+                    @if ($user->ratingSong != 0)
+                        <div class="col-md-2 col-md-offset-10" style="position:absolute; left:0; bottom:1px;">
+                            <div class="thumbnail">
+                                <h3 style="margin:0;">{{ number_format($user->ratingSong, 2, '.', ',') }} </h3>
+                                <p style="margin:0;">Votes: {{ $user->numberOfVotes }}</p>
+                            </div>
+                        </div>
+                    @endif
+
                 </div>
 
 
@@ -216,4 +231,6 @@
             <script src = "/assets/js/status.js"></script>
             <script src = "/assets/js/profile-int.js"></script>
         @endsection
+
+
 @endsection

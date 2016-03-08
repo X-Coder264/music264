@@ -92,4 +92,9 @@ class User extends Model implements AuthenticatableContract,
             ->latest('updated_at');
     }
 
+    public function RatingSong(){
+
+        return $this->hasMany('Artsenal\Rating');
+    }
+
 }

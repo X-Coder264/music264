@@ -2,19 +2,19 @@ body{
 
 }
 .form-control::-moz-placeholder{
-   color: #DDDDDD;
+   color: #999;
    opacity: 1;
 }
 .form-control:-moz-placeholder{
-   color: #DDDDDD;
+   color: #999;
    opacity: 1;
 }
 .form-control::-webkit-input-placeholder{
-   color: #DDDDDD;
+   color: #999;
    opacity: 1;
 }
 .form-control:-ms-input-placeholder{
-   color: #DDDDDD;
+   color: #999;
    opacity: 1;
 }
 
@@ -64,12 +64,17 @@ body{
     margin-bottom: 2px;
     font-size: 20px;
 }
+
 .navbar-nav > li > a {
+    height:45px; /* Da su slova jednako visoka kao slike na hover u navigaciji*/
+
     margin: 3px 3px 2px 3px;
     padding: 11px 7px 6px 7px;
     text-align: center;
     min-width: 70px;
 }
+
+
 .navbar-nav > li > a [class^="fa"]{
     font-size: 18px;
 }
@@ -139,7 +144,7 @@ body{
 .navbar-transparent .navbar-nav > .active > a, .navbar-transparent .navbar-nav > .active > a:hover, .navbar-transparent .navbar-nav > .active > a:focus, .navbar-transparent .navbar-nav > li > a:hover, .navbar-transparent .navbar-nav > li > a:focus, [class*="navbar-ct"] .navbar-nav > .active > a, [class*="navbar-ct"] .navbar-nav > .active > a:hover, [class*="navbar-ct"] .navbar-nav > .active > a:focus, [class*="navbar-ct"] .navbar-nav > li > a:hover, [class*="navbar-ct"] .navbar-nav > li > a:focus {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    color: #FFFFFF;
+
     opacity: 1;
 }
 .navbar-transparent .navbar-nav > .dropdown > a .caret, [class*="navbar-ct"] .navbar-nav > .dropdown > a .caret{

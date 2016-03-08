@@ -66,7 +66,7 @@ class MusicController extends Controller
             'song' => $filename,
             'user_id'=> Input::get('user_id')
         ));
-        return Redirect::route('music', [$user->slug]);
+        return Redirect::route('user.profile', [$user->slug]);
     }
 
     /**
