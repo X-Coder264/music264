@@ -32,11 +32,6 @@ class UserController extends Controller
         $status = Status::Where('user_id', '=', $user->id)->get();
 
         $userTransactions = DB::table('paypal_transactions')
-                            ->where('payer_user_id', $user->id)
-                            ->orderBy('transaction_time', 'asc')
-                            ->get();
-
-        $userTransactions2 = DB::table('paypal_transactions')
                             ->join('service_ratings', 'paypal_transactions.transaction_id', '=', 'service_ratings.transaction_id')
                             ->where('payer_user_id', $user->id)
                             ->orderBy('transaction_time', 'asc')
@@ -44,26 +39,13 @@ class UserController extends Controller
 
         $payeesNames = [];
         $ServiceNames = [];
-        $AllTransactionIDs = [];
-        $RatedTransactionIDs = [];
-        $ratings = [];
 
         foreach($userTransactions as $userTransaction){
             $payeesNames[] = DB::table('users')->where('id', '=', $userTransaction->payee_user_id)->value('name');
             $ServiceNames[] = DB::table('services')->where('id', '=', $userTransaction->service_id)->value('service');
-            $AllTransactionIDs[] = $userTransaction->transaction_id;
         }
 
-        foreach($userTransactions2 as $userTransaction){
-            $RatedTransactionIDs[] = $userTransaction->transaction_id;
-        }
-
-        $ratings[] = DB::table('service_ratings')
-                    ->whereIn('transaction_id', $RatedTransactionIDs)
-                    ->orderBy('time', 'asc')
-                    ->value('value');
-
-        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events, 'userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames, 'RatedTransactionIDs' => $RatedTransactionIDs, 'ratings' => $ratings]);
+        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events, 'userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames]);
     }
 
     public function showProfileSettings() {

@@ -202,6 +202,13 @@ class PayPalController extends Controller
                 ]
             );
 
+            DB::table('service_ratings')->insert(
+                ['transaction_id' => $data['transaction_id'],
+                    'value' => NULL,
+                    'comment' => NULL
+                ]
+            );
+
             return redirect()->route('payment')->with('message', 'Payment successful')
                                                ->with('transaction_amount', $data['transaction_amount'])
                                                ->with('transaction_currency', $data['transaction_currency'])

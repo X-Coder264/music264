@@ -62,6 +62,14 @@ class User extends Model implements AuthenticatableContract,
 
     public function getAllServices($id){
         $services = DB::table('service_user')->join('services', 'service_id', '=', 'services.id')->where('user_id', $id)->get();
+        foreach($services as $service)
+        {
+            $service->average_rating = DB::table('service_ratings')
+                                            ->join('paypal_transactions', 'paypal_transactions.transaction_id', '=', 'service_ratings.transaction_id')
+                                            ->join('service_user', 'paypal_transactions.payee_user_id', '=', 'service_user.user_id')
+                                            ->where('paypal_transactions.payee_user_id', '=', $service->user_id)
+                                            ->avg('service_ratings.value');
+        }
         return $services;
     }
 

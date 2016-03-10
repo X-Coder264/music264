@@ -16,8 +16,8 @@ class CreateServiceRatingsTable extends Migration
             $table->increments('id');
             $table->string('transaction_id');
             $table->foreign('transaction_id')->references('transaction_id')->on('paypal_transactions')->onDelete('cascade');
-            $table->integer('value');
-            $table->string('comment');
+            $table->integer('value')->nullable();
+            $table->string('comment')->nullable();
             $table->dateTime('time');
         });
     }

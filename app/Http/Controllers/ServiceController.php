@@ -92,14 +92,42 @@ class ServiceController extends Controller
 
     public function serviceIndex($slug)
     {
-        //usluga, studio, rejting, cijena, opis?!
         $services = DB::table('service_user')
                     ->join('services', 'service_user.service_id', '=', 'services.id')
                     ->join('users', 'service_user.user_id', '=', 'users.id')
                     ->where('service_user.approved', '=', 1)
                     ->where('services.slug', '=', $slug)
-                    ->select('services.service','service_user.price','service_user.currency','service_user.description','users.name','users.slug')
+                    ->select('services.service','service_user.price','service_user.currency','service_user.description','service_user.service_id', 'service_user.user_id', 'users.name','users.slug')
                     ->get();
+
+        $ratedServices = DB::table('service_ratings')
+                        ->join('paypal_transactions', 'service_ratings.transaction_id', '=', 'paypal_transactions.transaction_id')
+                        ->join('services', 'paypal_transactions.service_id', '=', 'services.id')
+                        ->join('users', 'paypal_transactions.payer_user_id', '=', 'users.id')
+                        ->whereNotNull('service_ratings.value')
+                        ->whereNotNull('service_ratings.comment')
+                        ->orderBy('service_ratings.time', 'desc')
+                        ->select('service_ratings.value', 'service_ratings.comment', 'service_ratings.time', 'users.name', 'users.slug', 'paypal_transactions.payee_user_id', 'paypal_transactions.service_id')
+                        ->get();
+
+        $i = 0;
+        foreach($ratedServices as $ratedService)
+        {
+            foreach($services as $service)
+            {
+                if($ratedService->service_id == $service->service_id && $ratedService->payee_user_id == $service->user_id)
+                {
+                    $service->arrayofRatings[$i]['value'] = $ratedService->value;
+                    $service->arrayofRatings[$i]['comment'] = $ratedService->comment;
+                    $service->arrayofRatings[$i]['time'] = $ratedService->time;
+                    $service->arrayofRatings[$i]['commUser'] = $ratedService->name;
+                    $service->arrayofRatings[$i]['commUserSlug'] = $ratedService->slug;
+                    end($service->arrayofRatings);
+                    $last_index=key($service->arrayofRatings);
+                    $i = $last_index + 1;
+                }
+            }
+        }
 
         return view('services.service', compact('services'));
 
@@ -112,7 +140,11 @@ class ServiceController extends Controller
                         ->select('transaction_id','payer_user_id')
                         ->get();
 
-        $check = DB::table('service_ratings')->where('transaction_id', '=', $id)->get();
+        $check = DB::table('service_ratings')
+                ->where('transaction_id', '=', $id)
+                ->whereNotNull('value')
+                ->whereNotNull('comment')
+                ->get();
 
         return view('services.comment', ['transaction' => $transaction, 'check' => $check]);
     }
@@ -120,8 +152,7 @@ class ServiceController extends Controller
     public function serviceRate(Request $request, $id)
     {
         if ($request->has('comment') && $request->has('rate')){
-            DB::table('service_ratings')->insert([
-                'transaction_id' => $id,
+            DB::table('service_ratings')->where('transaction_id', '=', $id)->update([
                 'comment' => $request->get('comment'),
                 'value' => $request->get('rate'),
                 'time' => Carbon::now()

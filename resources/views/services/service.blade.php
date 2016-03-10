@@ -30,10 +30,24 @@
 @section('content')
         @if(!empty($services))
             @foreach($services as $service)
-                    <div class="text-container message bg-new">
+                    <div class="text-container message">
                         <a href="/profile/{{$service->slug}}"><p>{{$service->name}} - {{$service->service}} <span style="float:right">{{$service->price}} {{$service->currency}}</span></p></a>
                         <div class="content hideContent">
                         <?php echo nl2br($service->description); ?>
+                                @if(!empty($service->arrayofRatings))
+                                <div>
+                                    <p>What have other users said about this service?</p>
+                                    @foreach($service->arrayofRatings as $rating)
+                                        <div class="bg-new content">
+                                            Rating: {{$rating['value']}} <span style="float: right;">{{\Carbon\Carbon::parse($rating['time'])->diffForHumans()}} - <a href="/profile/{{$rating['commUserSlug']}}">{{$rating['commUser']}}</a></span> <br><br>
+                                            {{$rating['comment']}}
+                                            <hr>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @else
+                                    <div>There are no user comments or ratings for this service at the moment.</div>
+                                @endif
                         </div>
                         <div class="show-more">
                             <a href="#">Show more</a>

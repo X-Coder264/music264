@@ -171,7 +171,7 @@
                             @foreach($services as $service)
                                 @if($service->approved == true)
                                     {!! Form::open(['route' => 'payment']) !!}
-                                    <div>{{$service->service}} {{$service->price}} {{$service->currency}}</div>
+                                    <div>{{$service->service}} {{$service->price}} {{$service->currency}} Average rating of this service: {{number_format($service->average_rating, 2, '.', ',')}}</div>
                                     <input type="hidden" name="service_id" value="{{$service->service_id}}">
                                     <input type="hidden" name="user_id" value="{{$service->user_id}}">
                                     <button type="submit" class="btn btn-warning">Order this service</button>
@@ -185,7 +185,7 @@
                     <!--EVENTS-->
                     <div class="tab-pane fade in" id="Events">
 
-                        @if(Entrust::hasRole('artist') || Entrust::hasRole('Venue'))
+                        @if((Entrust::hasRole('artist') || Entrust::hasRole('Venue')) && $user->id == \Auth::user()->id)
                             <a href="{{URL::route('event')}}" class="btn btn-info" role="button">Create a new event</a>  <br>
                         @endif
                         <div>
