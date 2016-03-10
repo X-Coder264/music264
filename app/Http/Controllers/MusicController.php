@@ -66,7 +66,7 @@ class MusicController extends Controller
             'song' => $filename,
             'user_id'=> Input::get('user_id')
         ));
-        return Redirect::route('user.profile', [$user->slug]);
+        return Redirect::route('profile', [$user->slug]);
     }
 
     /**
@@ -116,13 +116,13 @@ class MusicController extends Controller
         if (!File::delete($path.$filename))
         {
             Session::flash('flash_message', 'ERROR deleted the File!');
-            return Redirect::route('music',[$slug]);
+            return Redirect::route('profile',[$slug]);
         }
         else
         {
             $song->delete();
             Session::flash('flash_message', 'Successfully deleted the File!');
-            return Redirect::route('music',[$slug]);
+            return Redirect::route('profile',[$slug]);
         }
     }
 }

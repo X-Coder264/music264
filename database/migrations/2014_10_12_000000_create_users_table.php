@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('provider', 32);
             $table->string('provider_id');
 
-            $table->decimal('ratingSong', 10, 2);
+            $table->decimal('ratingSong', 10, 4);
             $table->integer('numberOfVotes');
 
             $table->rememberToken();

@@ -49,7 +49,7 @@
 
 .mejs-container {
 	position: relative;
-	background: #ff9e1a;
+	background: #ff760f;
 	font-family: Helvetica, Arial;
 	text-align: left;
 	vertical-align: top;
@@ -340,20 +340,20 @@
 @keyframes buffering-stripes { from {background-position: 0 0;} to {background-position: 30px 0;} }
 
 .mejs-controls .mejs-time-rail .mejs-time-loaded {
-	background: #3caac8;
-	background: rgba(60,170,200,0.8);
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(44,124,145,0.8)), to(rgba(78,183,212,0.8)));
-	background: -webkit-linear-gradient(top, rgba(44,124,145,0.8), rgba(78,183,212,0.8));
-	background: -moz-linear-gradient(top, rgba(44,124,145,0.8), rgba(78,183,212,0.8));
-	background: -o-linear-gradient(top, rgba(44,124,145,0.8), rgba(78,183,212,0.8));
-	background: -ms-linear-gradient(top, rgba(44,124,145,0.8), rgba(78,183,212,0.8));
-	background: linear-gradient(rgba(44,124,145,0.8), rgba(78,183,212,0.8));
+	background: #c0392b;
+	background: rgba(192, 57, 43, 1);
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(192, 57, 43, 0.8)), to(rgba(201, 84, 5, 0.8)));
+	background: -webkit-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
+	background: -moz-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
+	background: -o-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
+	background: -ms-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
+	background: linear-gradient(rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
 	width: 0;
 }
 
 .mejs-controls .mejs-time-rail .mejs-time-current {
 	background: #fff;
-	background: rgba(255,255,255,0.8);
+	background: rgba(255,255,255,1);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0.9)), to(rgba(200,200,200,0.8)));
 	background: -webkit-linear-gradient(top, rgba(255,255,255,0.9), rgba(200,200,200,0.8));
 	background: -moz-linear-gradient(top, rgba(255,255,255,0.9), rgba(200,200,200,0.8));
