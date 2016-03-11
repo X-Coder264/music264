@@ -47,6 +47,20 @@
     font-weight: 400;
 }
 
+.playlist{
+	position: absolute;
+	top: 1px;
+	left: 7%;
+	z-index: 90;
+}
+
+.score{
+	position: absolute;
+	top: 1px;
+	left: 96%;
+	z-index: 90;
+}
+
 .rating {
 	z-index: 70;
 }

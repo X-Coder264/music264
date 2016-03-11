@@ -19,9 +19,13 @@ $(document).ready(function(){
             {
                 song = data[0];
                 var $songName = data[0]['name'];
+                var $songScore = Math.round(data[0]['rating']*100).toFixed(2);
                 songOwner = data[0]['user_id'];
 
                 $("#song-name").text($songName);
+                $songScore=$songScore/100;
+                $("#song-score").text($songScore);
+
 
                 $.ajax({
                     url: '/ratings',

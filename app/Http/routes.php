@@ -11,9 +11,12 @@
 |
 */
 
+/*
 Route::get('/', function () {
     return view('index');
-});
+});*/
+
+Route::get('/', 'IndexController@index');
 
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
@@ -115,3 +118,5 @@ Route::group(['prefix' => 'staffcp', 'middleware' => ['auth', 'role:admin|mod']]
 //Testing
 Route::get('/testing', array('as' => 'testing', 'uses' => 'TestingController@index'));
 Route::post('/testing', array('as' => 'testing', 'uses' => 'TestingController@store'));
+
+//Playlist
