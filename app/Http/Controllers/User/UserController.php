@@ -93,7 +93,7 @@ class UserController extends Controller
 
         $status2 = [];
         $status2['text'] = $status->text;
-        $status2['created_at'] = $status->created_at->diffForHumans();;
+        $status2['created_at'] = $status->created_at->diffForHumans();
 
         return $status2;
     }
