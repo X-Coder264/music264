@@ -37,8 +37,8 @@ Route::post('profile/settings', ['as' => 'user_updateData', 'uses' => 'User\User
 Route::get('profile/{id}', ['as' => 'profile', 'uses' => 'User\UserController@show']);
 Route::post('profile/{id}', ['as' => 'profile', 'uses' => 'User\UserController@follow']);
 
-Route::get('status', 'User\UserController@showStatus');
-Route::post('status', 'User\UserController@storeStatus');
+Route::get('/status/{slug}', 'User\UserController@showStatus');
+Route::post('/status/{slug}', 'User\UserController@storeStatus');
 
 
 Route::get('/faq', function () {

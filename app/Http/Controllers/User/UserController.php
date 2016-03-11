@@ -6,6 +6,7 @@ use Artsenal\User;
 use Artsenal\Status;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Support\Facades\Auth;
 use Request;
 use Artsenal\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
@@ -34,7 +35,7 @@ class UserController extends Controller
             $PassedEvents = $user->getAllDoneEvents();
         }
 
-        $status = Status::Where('user_id', '=', $user->id)->get();
+        $status = Status::Where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
 
         $userTransactions = DB::table('paypal_transactions')
                             ->join('service_ratings', 'paypal_transactions.transaction_id', '=', 'service_ratings.transaction_id')
@@ -71,26 +72,30 @@ class UserController extends Controller
         return view('user.settings', ['user' => $user, 'services' => $services, 'checkedServicesID' => $checkedServicesID, 'checkedServices' => $checkedServices]);
     }
 
-    public function showStatus(){
-        $user = User::Where('id', \Auth::user()->id)->firstOrFail();
-        $status = Status::Where('user_id', '=', $user->id)->get();
+    public function showStatus($slug){
+        $user = User::findBySlug($slug);
+        $status = Status::Where('user_id', '=', $user->id)->orderBy('created_at', 'desc')->get();
         return $status;
     }
 
-    public function storeStatus()
+    public function storeStatus($slug)
     {
         $input = Request::all();
 
         $status = new Status();
         $status->text = $input['text'];
 
-        $user_id = \Auth::user()->id;
+        $user = User::findBySlug($slug);
 
-        $status->user_id = $user_id;
-        $status->created_at = \Carbon\Carbon::now();
+        $status->user_id = $user->id;
+        $status->created_at = Carbon::now();
         $status->save();
 
-        return $status;
+        $status2 = [];
+        $status2['text'] = $status->text;
+        $status2['created_at'] = $status->created_at->diffForHumans();;
+
+        return $status2;
     }
 
     public function follow($userSlug){

@@ -119,41 +119,33 @@
 
                     <!--GENERAL-->
                     <div class="tab-pane fade in active" id="General">
-                        <div id="statuses5">
-                            <form method="POST" class="form-horizontal">
-                                <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                        <div id="statuses">
+                            @if($user->id == \Auth::user()->id)
+                                <form method="POST" class="form-horizontal" id="status">
+                                    <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
 
-                                <div class="form-group">
-                                    <input type="text" name="text" class="form-control" id="text" v-model="newStatus.text" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <div>
-                                        <button type="submit" v-on:click="onSubmitForm" class="btn btn-warning col-lg-6 col-lg-offset-3">Post Status</button>
+                                    <div class="form-group">
+                                        <input type="text" name="text" class="form-control" id="text" required>
                                     </div>
-                                </div>
-                            </form>
 
+                                    <div class="form-group">
+                                        <div>
+                                            <button type="submit" class="btn btn-warning col-lg-6 col-lg-offset-3">Post Status</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            @endif
 
-                            <!--@foreach($status as $stat)
-                                    <div>{{ $stat->text }}
-                                    <br>
+                            <div class="statuses">
+                            @foreach($status as $stat)
+                                    <article>{{ $stat->text }}
                                         {{ $stat->created_at->diffForHumans() }}
-                                    </div>
+                                    </article>
                                 @endforeach
-                                    -->
+                            </div>
 
-                            <article v-for="status in statuses">
-                                <!--<h3>@{{ id }}</h3>-->
-                                <div>@{{ status.text }} - @{{ status.created_at }}</div>
-                            </article>
-
-                            <!--moment(status.created_at, "YYYY-MM-DD H:M:S").fromNow();-->
                         </div>
                     </div>
-
-                    {{--@if(Entrust::hasRole('artist'))
-                    @endif--}}
 
                     <!--MUSIC-->
                     <div class="tab-pane fade in" id="Music">
@@ -233,11 +225,39 @@
         <!-- Dovde -->
 
         @section('scripts')
-            <script src = "/assets/js/moment.min.js"></script>
-            <script src = "/assets/js/vue.min.js"></script>
-            <script src = "/assets/js/vue-resource.min.js"></script>
-            <script src = "/assets/js/status.js"></script>
             <script src = "/assets/js/profile-int.js"></script>
+            <script>
+                jQuery(document).ready(function() {
+                    $("#status").submit(function (event) {
+                        event.preventDefault();
+
+                        /*var values = {};
+                        $.each($(this).serializeArray(), function (i, field) {
+                            values[field.name] = field.value;
+                        });
+
+                         console.log(values);*/
+
+                        var formData = $('#text').val();
+
+                        var token = $('#status > input[name="_token"]').val();
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?php echo "/status/" . $user->slug ?>',
+                            dataType: 'json',
+                            headers: {'X-CSRF-TOKEN': token},
+                            data: {text: formData},
+                            error: function() {
+                                $('.statuses').html('<p>An error has occurred</p>');
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $('.statuses').prepend("<article>" + data.text + " " + data.created_at + "</article>");
+                            }
+                        });
+                    });
+                });
+            </script>
         @endsection
 
 
