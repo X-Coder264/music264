@@ -48,57 +48,47 @@ class RatingsSongsController extends Controller
         //Updating total rating of a song in database
 
 
-
         //TODO:pametnije napravit funkciju u bazi nego ovdje se zafrkavat...
         $rating = DB::select('select * from ratings where user_id = ? and song_id = ?', array(\Auth::user()->id, $songId));
 
 
-        if ($rating==NULL){
+        if ($rating==NULL && $value){
             Rating::create(array(
                 'song_id' => $request->get('songId'),
                 'user_id' => \Auth::user()->id,
                 'value' => $value
             ));
 
-            //TODO: this should definetly be done in database
-            $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
-            $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value) / ($songRating[0]->numberOfVotes + 1);
-            DB::table('songs')->where('id', $songId)->increment('numberOfVotes');
-            DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
 
-            //TODO: Cache this
-            $songRating = DB::table('users')->select('ratingSong', 'numberOfVotes')->where('id', $user)->get();
-            $newRating = ($songRating[0]->ratingSong * $songRating[0]->numberOfVotes + $value) / ($songRating[0]->numberOfVotes + 1);
-            DB::table('users')->where('id', $user)->update(array('ratingSong' => $newRating, 'numberOfVotes' => $songRating[0]->numberOfVotes+1));
+                //TODO: this should definetly be done in database
+                $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
+                $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value) / ($songRating[0]->numberOfVotes + 1);
+                DB::table('songs')->where('id', $songId)->increment('numberOfVotes');
+                DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
+
+                //TODO: Cache this
+                $songRating = DB::table('users')->select('ratingSong', 'numberOfVotes')->where('id', $user)->get();
+                $newRating = ($songRating[0]->ratingSong * $songRating[0]->numberOfVotes + $value) / ($songRating[0]->numberOfVotes + 1);
+                DB::table('users')->where('id', $user)->update(array('ratingSong' => $newRating, 'numberOfVotes' => $songRating[0]->numberOfVotes + 1));
+
         }
         else
         {
-            DB::update('update ratings set value = ? where user_id = ? and song_id = ?', array($value,\Auth::user()->id, $songId));
+            if($value) {
+                DB::update('update ratings set value = ? where user_id = ? and song_id = ?', array($value, \Auth::user()->id, $songId));
 
-            //TODO: this should definetly be done in database
-            $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
-            $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value - $rating[0]->value) / ($songRating[0]->numberOfVotes);
-            DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
+                //TODO: this should definetly be done in database
+                $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('id', $songId)->get();
+                $newRating = ($songRating[0]->rating * $songRating[0]->numberOfVotes + $value - $rating[0]->value) / ($songRating[0]->numberOfVotes);
+                DB::table('songs')->where('id', $songId)->update(array('rating' => $newRating));
 
-            //TODO: Cache this
-            $songRating = DB::table('users')->select('ratingSong', 'numberOfVotes')->where('id', $user)->get();
-            $newRating = ($songRating[0]->ratingSong * $songRating[0]->numberOfVotes + $value - $rating[0]->value) / ($songRating[0]->numberOfVotes);
-            DB::table('users')->where('id', $user)->update(array('ratingSong' => $newRating, 'numberOfVotes' => $songRating[0]->numberOfVotes));
+                //TODO: Cache this
+                $songRating = DB::table('users')->select('ratingSong', 'numberOfVotes')->where('id', $user)->get();
+                $newRating = ($songRating[0]->ratingSong * $songRating[0]->numberOfVotes + $value - $rating[0]->value) / ($songRating[0]->numberOfVotes);
+                DB::table('users')->where('id', $user)->update(array('ratingSong' => $newRating, 'numberOfVotes' => $songRating[0]->numberOfVotes));
+            }
+
         }
-
-
-/*
-        $songRating = DB::table('songs')->select('rating', 'numberOfVotes')->where('user_id', $user)->get();
-        $number = DB::table('users')->where('user_id', $user)->count();
-
-        $totalVotes=0;
-        $totalRating=0;
-        for ($i=0; $i<$number;$i++) {
-            $totalVotes = $totalVotes + $songRating[$i]->numberOfVotes;
-            $totalRating = $totalRating + $songRating[$i]->rating * $songRating[$i]->numberOfVotes;;
-        }
-        $totalRating = $totalRating / $totalVotes;
-        DB::table('users')->where('id', $user)->update(array('ratingSong' => $totalRating, 'numberOfVotes' => $totalVotes));*/
 
         return $value;
     }

@@ -20,17 +20,7 @@
         <p id="song-name">Unknown</p>
         @include('ratings')
 
-    <div class="dropup playlist">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="glyphicon glyphicon-list" aria-hidden="true" style="padding:1px 3px;"></span>
-    </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 
-            <h1>1</h1>
-            <h1>2</h1>
-            <a>Create new playlist</a>
-        </div>
-    </div>
 
     <div class="score">
         <p id="song-score"></p>
