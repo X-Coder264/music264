@@ -18,16 +18,20 @@
                 @endif
 
                 <div class="col-md-10">
-                    <p>{{$users[$j] -> name}}</p>
-                    <div><p>{{ $status[$i]->text }}</p></div>
+                    <blockquote>
+                    <h4>{{$users[$j] -> name}}</h4>
+                    <footer>{{\Carbon\Carbon::parse($status[$i] -> updated_at )->diffForHumans()}}</footer>
+                        <p>{{ $status[$i]->text }}</p>
+                    </blockquote>
                 </div>
+
+
 
             @endif
         @endfor
 
     </div>
 
-<hr>
 @endfor
 
 
