@@ -251,7 +251,7 @@
                                 $('.statuses').html('<p>An error has occurred</p>');
                             },
                             success: function(data) {
-                                console.log(data);
+                                $("#status")[0].reset();
                                 $('.statuses').prepend("<article>" + data.text + " " + data.created_at + "</article>");
                             }
                         });
