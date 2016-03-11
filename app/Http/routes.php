@@ -85,6 +85,8 @@ Route::get('profile/{id}/delete-song/{idSong}', array('as' => 'delete_song', 'us
 
 Route::get('event', array('as' => 'event', 'middleware' => ['auth', 'role:artist|Venue'], 'uses' => 'EventController@index'));
 Route::post('event', array('as' => 'event', 'middleware' => ['auth', 'role:artist|Venue'], 'uses' => 'EventController@store'));
+Route::get('event/{slug}', array('as' => 'show_event', 'uses' => 'EventController@show'));
+Route::post('event/{slug}', array('as' => 'event_users', 'uses' => 'EventController@userEventStatus'));
 Route::get('getVenues', 'EventController@getVenues');
 Route::get('getArtists', 'EventController@getArtists');
 

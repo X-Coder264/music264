@@ -82,6 +82,15 @@ class User extends Model implements AuthenticatableContract,
         return $events;
     }
 
+    public function getAllDoneEvents(){
+        if($this->hasRole('artist'))
+            $events = DB::table('events')->where('artist_user_id', $this->id)->where('time', '<=', Carbon::now())->get();
+        else
+            $events = DB::table('events')->where('venue_user_id', $this->id)->where('time', '<=', Carbon::now())->get();
+
+        return $events;
+    }
+
     public function Album(){
 
         return $this->hasMany('Artsenal\Album');

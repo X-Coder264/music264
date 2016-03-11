@@ -184,16 +184,24 @@
 
                     <!--EVENTS-->
                     <div class="tab-pane fade in" id="Events">
-
                         @if((Entrust::hasRole('artist') || Entrust::hasRole('Venue')) && $user->id == \Auth::user()->id)
                             <a href="{{URL::route('event')}}" class="btn btn-info" role="button">Create a new event</a>  <br>
                         @endif
                         <div>
-                            @if(empty($events))
+                            @if(empty($UpcomingEvents))
                                 <p>There are no upcoming events.</p>
                             @else
+                                <div>Upcoming events</div>
+                                @foreach($UpcomingEvents as $event)
+                                    <p><a href="/event/{{$event->slug}}">{{$event->name}} {{$event->time}}</a> ({{\Carbon\Carbon::parse($event->time)->diffForHumans()}})</p>
+                                @endforeach
+                            @endif
+                        </div>
+                        <div>
+                            @if(!empty($PassedEvents))
+                                <div>Events that have passed</div>
                                 @foreach($events as $event)
-                                    <p>{{$event->name}} {{$event->time}}</p>
+                                    <p>{{$event->name}} {{$event->time}} ({{\Carbon\Carbon::parse($event->time)->diffForHumans()}})</p>
                                 @endforeach
                             @endif
                         </div>

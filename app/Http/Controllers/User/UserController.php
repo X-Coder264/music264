@@ -24,9 +24,14 @@ class UserController extends Controller
         $user = User::findBySlug($slug);
         $services = $user->getAllServices($user->id);
 
-        $events = [];
+        $UpcomingEvents = [];
         if($user->hasRole(['artist', 'Venue'])) {
-            $events = $user->getAllUpcomingEvents();
+            $UpcomingEvents = $user->getAllUpcomingEvents();
+        }
+
+        $PassedEvents = [];
+        if($user->hasRole(['artist', 'Venue'])) {
+            $PassedEvents = $user->getAllDoneEvents();
         }
 
         $status = Status::Where('user_id', '=', $user->id)->get();
@@ -45,7 +50,7 @@ class UserController extends Controller
             $ServiceNames[] = DB::table('services')->where('id', '=', $userTransaction->service_id)->value('service');
         }
 
-        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'events' => $events, 'userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames]);
+        return view('user.profile', ['user' => $user, 'status' => $status, 'services' => $services, 'UpcomingEvents' => $UpcomingEvents, 'PassedEvents' => $PassedEvents, 'userTransactions' => $userTransactions, 'payeesNames' => $payeesNames, 'ServiceNames' => $ServiceNames]);
     }
 
     public function showProfileSettings() {

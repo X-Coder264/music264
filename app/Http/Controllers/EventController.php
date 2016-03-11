@@ -3,6 +3,7 @@
 namespace Artsenal\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Artsenal\Event;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -18,7 +19,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('create-event');
+        return view('events.create-event');
     }
 
     /**
@@ -40,25 +41,21 @@ class EventController extends Controller
     public function store(Request $request)
     {
         if ($request->has('artist')) {
-            DB::table('events')->insert([
+            Event::create([
                 'artist_user_id' => $request->artist,
                 'venue_user_id' => Auth::id(),
                 'name' => $request->name,
                 'description' => $request->description,
                 'time' => $request->time,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
             ]);
         }
         else{
-            DB::table('events')->insert([
+            Event::create([
                 'artist_user_id' => Auth::id(),
                 'venue_user_id' => $request->venue,
                 'name' => $request->name,
                 'description' => $request->description,
                 'time' => $request->time,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
             ]);
         }
 
@@ -69,12 +66,34 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $event = Event::findBySlug($slug);
+
+        $eventID = DB::table('events')->where('slug', '=', $slug)->value('id');
+        $check = DB::table('event_users')
+                    ->where('event_id', '=', $eventID)
+                    ->where('user_id', '=', Auth::user()->id)
+                    ->get();
+
+        $GoingUsers = DB::table('users')
+                        ->join('event_users', 'users.id', '=', 'event_users.user_id')
+                        ->where('event_id', '=', $eventID)
+                        ->where('event_users.status', '=', 1)
+                        ->select('users.name', 'users.slug')
+                        ->get();
+
+        $MaybeUsers = DB::table('users')
+            ->join('event_users', 'users.id', '=', 'event_users.user_id')
+            ->where('event_id', '=', $eventID)
+            ->where('event_users.status', '=', 0)
+            ->select('users.name', 'users.slug')
+            ->get();
+
+        return view('events.show-event', ['event' => $event, 'check' => $check, 'GoingUsers' => $GoingUsers, 'MaybeUsers' => $MaybeUsers]);
     }
 
     /**
@@ -139,5 +158,35 @@ class EventController extends Controller
         }
 
         return json_encode($artists2);
+    }
+
+    public function userEventStatus(Request $request, $slug)
+    {
+        if($request->has('status') && is_numeric($request->get('status')))
+        {
+            $eventID = DB::table('events')->where('slug', '=', $slug)->value('id');
+            $event = DB::table('event_users')->where('event_id', '=', $eventID)->where('user_id', '=', Auth::user()->id)->get();
+            if(empty($event))
+            {
+                DB::table('event_users')->insert([
+                    'user_id' => Auth::user()->id,
+                    'event_id' => $eventID,
+                    'status' => $request->get('status'),
+                    'created_at' => Carbon::now()
+                ]);
+            }
+            else
+            {
+                DB::table('event_users')->where('event_id', '=', $eventID)
+                    ->where('user_id', '=', Auth::user()->id)
+                    ->update([
+                    'status' => $request->get('status'),
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        // TODO: Redirect back with a proper message
+        return redirect('/');
     }
 }

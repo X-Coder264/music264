@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table->foreign('venue_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('description');
             $table->dateTime('time');
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

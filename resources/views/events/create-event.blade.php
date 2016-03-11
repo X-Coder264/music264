@@ -7,8 +7,6 @@
 @stop
 
 @section('content')
-<div class="container">
-
     {!!   Form::open(array('url' => 'event')) !!}
 
     <div class="form-group">
@@ -36,8 +34,8 @@
     @endif
 
     <div class="form-group">
-        {!! Form::label('time', 'Date and time of the event') !!}
-        <div id="datetimepicker1">
+        <div id="datetimepicker">
+            <p>Date and time of the event</p>
             {!! Form::hidden('time', null, ['class' => 'form-control']) !!}
         </div>
     </div>
@@ -47,8 +45,6 @@
     </div>
 
     {!! Form::close() !!}
-</div>
-
 @stop
 
 @section('scripts')
@@ -56,7 +52,7 @@
     <script src="/assets/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#datetimepicker1').datetimepicker({
+            $('#datetimepicker').datetimepicker({
                 inline: true,
                 sideBySide: true,
                 format: "YYYY-MM-D HH:mm",

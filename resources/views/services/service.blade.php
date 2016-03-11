@@ -39,7 +39,7 @@
                                     <p>What have other users said about this service?</p>
                                     @foreach($service->arrayofRatings as $rating)
                                         <div class="bg-new content">
-                                            Rating: {{$rating['value']}} <span style="float: right;">{{\Carbon\Carbon::parse($rating['time'])->diffForHumans()}} - <a href="/profile/{{$rating['commUserSlug']}}">{{$rating['commUser']}}</a></span> <br><br>
+                                            Rating: {{$rating['value']}} n<span style="float: right;">{{\Carbon\Carbon::parse($rating['time'])->diffForHumans()}} - <a href="/profile/{{$rating['commUserSlug']}}">{{$rating['commUser']}}</a></span> <br><br>
                                             {{$rating['comment']}}
                                             <hr>
                                         </div>

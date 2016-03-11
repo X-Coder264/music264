@@ -3,20 +3,13 @@
     <li>
         <a href="javascript:void(0);" data-toggle="search" class="hidden-xs">
             <i class="pe-7s-search"></i>
-
         </a>
     </li>
-
-
-
-
 
         <li><a href="/services" class="text">Services</a></li>
         <li><a href="/faq">FAQ</a></li>
         <li><a href="/contact">Contact us</a></li>
         <li><a href="{{ route('testing') }}">Testing</a></li>
-
-
 
         @if (Auth::guest())
         <li ><a href="/auth/register">Register</a></li>
@@ -30,7 +23,16 @@
                 @include('auth.login')
             </div>
         </li>
+
         @else
+
+        @if(Entrust::hasRole('artist') || Entrust::hasRole('Venue'))
+            <li><a href="/event">Create a new event</a></li>
+        @endif
+
+        @if(Entrust::hasRole('admin') || Entrust::hasRole('mod'))
+            <li><a href="/staffcp">Staff CP</a></li>
+        @endif
 
             <li>
                 <a href="{{URL::to('messages')}}">
@@ -40,10 +42,6 @@
 
                 </a>
             </li>
-
-            @if(Entrust::hasRole('admin') || Entrust::hasRole('mod'))
-            <li><a href="staffcp">Staff CP</a></li>
-                @endif
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="pe-7s-user"></i>
