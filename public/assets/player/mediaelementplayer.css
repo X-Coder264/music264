@@ -1,18 +1,37 @@
-.audio-player,.audio-player div,.audio-player p,.audio-player a,.audio-player button {
+.audio-player,.audio-player div,.audio-player p,.audio-player a,{
     margin: 0;
     padding: 0;
     border: none;
     outline: none;
 }
 
+.audio-player button {
+	margin: 3px 0 0 0;
+	padding: 0;
+	outline: none;
+}
+
 .audio-player {
     position: fixed;
     margin: 0 auto;
-    width: 500px;
+    width: 510px;
     height: 60px;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.player-icon{
+	position: fixed;
+	width: 50px;
+	height: 50px;
+	bottom: 0;
+	right: 0;
+}
+
+.player-icon i{
+	width: 50px;
+	height: 50px;
 }
 
 .audio-player p {
@@ -49,7 +68,7 @@
 
 .mejs-container {
 	position: relative;
-	background: #ff760f;
+	background: #333333;
 	font-family: Helvetica, Arial;
 	text-align: left;
 	vertical-align: top;
@@ -287,7 +306,8 @@
 /* Start: Progress Bar */
 .mejs-controls div.mejs-time-rail {
 	direction: ltr;
-	width: 200px;
+	width: 190px;
+	max-width: 190px;
 	padding-top: 5px;
 }
 
@@ -347,13 +367,13 @@
 	background: -moz-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
 	background: -o-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
 	background: -ms-linear-gradient(top, rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
-	background: linear-gradient(rgba(192, 57, 43, 0.8), rgba(201, 84, 5, 0.8));
+	background: linear-gradient(rgba(51, 51, 51, 0.8), rgba(102, 102, 102, 0.8));
 	width: 0;
 }
 
 .mejs-controls .mejs-time-rail .mejs-time-current {
-	background: #fff;
-	background: rgba(255,255,255,1);
+	background: #c0392b;
+	background: rgb(192, 57, 43);
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0.9)), to(rgba(200,200,200,0.8)));
 	background: -webkit-linear-gradient(top, rgba(255,255,255,0.9), rgba(200,200,200,0.8));
 	background: -moz-linear-gradient(top, rgba(255,255,255,0.9), rgba(200,200,200,0.8));
@@ -554,7 +574,7 @@
 	background: -moz-linear-gradient(top, rgba(30,30,30,0.8), rgba(60,60,60,0.8));
 	background: -o-linear-gradient(top, rgba(30,30,30,0.8), rgba(60,60,60,0.8));
 	background: -ms-linear-gradient(top, rgba(30,30,30,0.8), rgba(60,60,60,0.8));
-	background: linear-gradient(rgba(30,30,30,0.8), rgba(60,60,60,0.8));
+	background: linear-gradient(rgba(51, 51, 51, 0.8), rgba(102, 102, 102, 0.8));
 }
 
 .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {

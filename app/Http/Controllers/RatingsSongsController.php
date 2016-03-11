@@ -108,6 +108,12 @@ class RatingsSongsController extends Controller
         $songId = $request->get('songId');
         $rating = DB::select('select * from ratings where user_id = ? and song_id = ?', array(\Auth::user()->id, $songId));
 
+
+        if(empty($rating)){
+            $rating[0]['value'] = 0;
+
+        }
+
         return $rating;
     }
 

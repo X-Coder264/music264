@@ -31,7 +31,8 @@ $(document).ready(function(){
                     success: function(data)
                     {
 
-                        var $value = data[0]['value'];
+                        var $value = 0;
+                        $value = data[0]['value'];
 
                         if ($value == 1){
                             $('.rating').find(':radio[name=rate][value="1"]').prop('checked', true);
@@ -47,6 +48,13 @@ $(document).ready(function(){
                         }
                         else  if ($value == 5){
                             $('.rating').find(':radio[name=rate][value="5"]').prop('checked', true);
+                        }
+                        else{
+                            $('.rating').find(':radio[name=rate][value="1"]').prop('checked', false);
+                            $('.rating').find(':radio[name=rate][value="2"]').prop('checked', false);
+                            $('.rating').find(':radio[name=rate][value="3"]').prop('checked', false);
+                            $('.rating').find(':radio[name=rate][value="4"]').prop('checked', false);
+                            $('.rating').find(':radio[name=rate][value="5"]').prop('checked', false);
                         }
                     },
 
@@ -81,6 +89,9 @@ $('.rating').click(function(event) {
     else  if ($('.rate-5').is(':checked')){
         $starValue = 5;
     }
+    else {
+        $starValue = 0;
+    }
 
 
     $.ajax({
@@ -109,6 +120,13 @@ $('.rating').click(function(event) {
             }
             else  if ($starValue == 5){
                 $('.rating').find(':radio[name=rate][value="5"]').prop('checked', true);
+            }
+            else{
+                $('.rating').find(':radio[name=rate][value="1"]').prop('checked', false);
+                $('.rating').find(':radio[name=rate][value="2"]').prop('checked', false);
+                $('.rating').find(':radio[name=rate][value="3"]').prop('checked', false);
+                $('.rating').find(':radio[name=rate][value="4"]').prop('checked', false);
+                $('.rating').find(':radio[name=rate][value="5"]').prop('checked', false);
             }
 
         },

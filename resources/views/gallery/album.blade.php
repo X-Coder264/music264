@@ -7,6 +7,10 @@
     <div class="container">
         <div>
 
+            @if(count($user->Album)==0)
+                <p>There is no available albums.</p>
+            @endif
+
             <div class="row">
                 @foreach($user->Album as $album)
                     <div class="col-lg-3">

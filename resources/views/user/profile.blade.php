@@ -165,7 +165,7 @@
                         @include('gallery.album')
                     </div>
 
-                    <!--FOLLOWING-->
+                    <!--SERVICES-->
                     <div class="tab-pane fade in" id="Services">
                         @if(!empty($services))
                             @foreach($services as $service)
@@ -210,10 +210,10 @@
 
                     <!--INFO-->
                     <div class="tab-pane fade in" id="Info">
-                        <h2>{{ $user->name }}</h2>
-                        <h3>{{ $user->location }}</h3>
+                        <p>Lives in: {{ $user->location }}</p>
                         <div>
-                            {{ $user->description }}
+                            <p>About me:</p>
+                            <p>{{ $user->description }}</p>{{ $user->description }}
                         </div>
 
                         <br>

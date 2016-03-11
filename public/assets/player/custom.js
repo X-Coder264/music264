@@ -5,7 +5,7 @@ $(document).ready(function(){$('audio,video').mediaelementplayer(
     {
         alwaysShowControls: true,
         audioVolume: 'horizontal',
-        audioWidth: 500,
+        audioWidth: 510,
         audioHeight: 60,
 
         loop: true,
