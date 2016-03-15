@@ -6,70 +6,48 @@
 
 @section('content')
 
-    <div class="col-lg-4 col-lg-offset-4">
+    <div class="col-lg-6 col-lg-offset-3">
 
+        @if(!empty($errors->all()))
         <ul>
             @foreach($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
+        @endif
 
-        <form method="POST" action="/auth/register" class="form-horizontal" id="registerForm">
-            {!! csrf_field() !!}
+        <div class="form-group">
+            <label class="control-label">Select type of account</label>
 
-            <div class="form-group">
-                <label for="name" class="control-label">Name</label>
-                <input type="text" name="name" class="form-control" value="{{ old('name') }}" id="name" placeholder="Name">
+            <div class="btn-group btn-group-justified" data-toggle="buttons">
+                <label class="btn btn-default">
+                    <input type="radio" name="accType" value="0">
+
+                    <span><i class="fa fa-user"></i></span> User
+                    <br>
+                    <small>Find your favourite band</small>
+
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="accType" value="1">
+                    <span><i class="fa fa-briefcase"></i></span> Business
+                    <br>
+                    <small>Find new opportunities</small>
+
+                </label>
             </div>
-
-            <div class="form-group">
-                <label for="email" class="control-label">Email</label>
-                <input type="email" name="email" class="form-control" value="{{ old('email') }}" id="email" placeholder="Email">
-            </div>
-
-            <div class="form-group">
-                <label for="password" class="control-label">Password</label>
-                <input type="password" name="password" id="password"  class="form-control" placeholder="Password">
-            </div>
-
-            <div class="form-group">
-                <label for="passwordConf" class="control-label">Confirm password</label>
-                <input type="password" id="passwordConf" name="password_confirmation" class="form-control" placeholder="Confirm password">
-            </div>
-
-
-            <div class="form-group">
-                <label for="accType" class="control-label">Select type of account</label>
-
-                <div class="btn-group btn-group-justified" data-toggle="buttons">
-                    <label class="btn btn-default">
-                        <input type="radio" name="accType" value="0" >
-
-                        <span><i class="fa fa-user"></i></span> User
-                        <br>
-                        <small>Find your favourite band</small>
-
-                    </label>
-                    <label class="btn btn-default">
-                        <input type="radio" name="accType" value="1" >
-                        <span><i class="fa fa-briefcase"></i></span> Business
-                        <br>
-                        <small>Find new opportunities</small>
-
-                    </label>
-                </div>
-            </div>
+        </div>
 
             <div class="form-group">
                 <div id="bussType" class="btn-group btn-group-justified" data-toggle="buttons">
                     <label class="btn btn-default">
-                        <input type="radio" name="busType" value="0" /> <span><i class="fa fa-music"></i></span> Artist
+                        <input type="radio" name="busType" value="0"> <span><i class="fa fa-music"></i></span> Artist
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="busType" value="1" /> <span><i class="fa fa-microphone"></i></span> Service provider
+                        <input type="radio" name="busType" value="1"> <span><i class="fa fa-microphone"></i></span> Service provider
                     </label>
                     <label class="btn btn-default">
-                        <input type="radio" name="busType" value="2" /> <span><i class="fa fa-credit-card"></i></span> Venue
+                        <input type="radio" name="busType" value="2"> <span><i class="fa fa-credit-card"></i></span> Venue
                     </label>
                 </div>
             </div>
@@ -87,13 +65,6 @@
                 @include('auth.accountType.venue')
             </div>
 
-            <div class="form-group">
-                <div>
-                    <button type="submit" class="btn btn-warning col-lg-6 col-lg-offset-3">Register</button>
-                </div>
-            </div>
-        </form>
-
     </div>
 
 @endsection
@@ -104,14 +75,14 @@
 
         $('#bussType').hide();
 
-        $('#registerForm input[name=accType]').on('change', function() {
-            var account = $('input[name=accType]:checked', '#registerForm').val();
+        $('input[name=accType]').on('change', function() {
+            var account = $('input[name=accType]:checked').val();
             if (account == "0") {
-                $('#bussType').remove();
+                $('#bussType').hide();
                 $('#accountData0').slideToggle();
-                $('#accountData1').remove();
-                $('#accountData2').remove();
-                $('#accountData3').remove();
+                $('#accountData1').hide();
+                $('#accountData2').hide();
+                $('#accountData3').hide();
                 console.log("user");
             } else if (account == "1") {
                 $('#bussType').fadeToggle();
@@ -120,10 +91,10 @@
             }
         });
 
-        $('#registerForm input[name=busType]').on('change', function() {
-            var account = $('input[name=busType]:checked', '#registerForm').val();
+        $('input[name=busType]').on('change', function() {
+            var account = $('input[name=busType]:checked').val();
             if (account == "0") {
-                $('#accountData1').fadeToggle();
+                $('#accountData1').slideToggle();
                 $('#accountData2').hide();
                 $('#accountData3').hide();
             } else if (account == "1") {

@@ -55,7 +55,6 @@
 
 
         <script src="/assets/js/app.js"></script>
-        <script src="/assets/js/dropzone.js"></script>
         @yield('scripts')
         @yield('scriptsPlayer')
         <script>

@@ -350,9 +350,6 @@ body{
         border-right: 11px solid rgba(0, 0, 0, 0);
         content: "";
         display: inline-block;
-        position: absolute;
-        right: 15px;
-        top: -11px;
     }
 
     .dropdown-menu:after {
@@ -361,9 +358,6 @@ body{
         border-right: 11px solid rgba(0, 0, 0, 0);
         content: "";
         display: inline-block;
-        position: absolute;
-        right: 15px;
-        top: -10px;
     }
 
 }
