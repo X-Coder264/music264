@@ -4,11 +4,12 @@
     <link rel="stylesheet" href="/assets/css/ratings.css" />
 @endsection
 
+<!--
 <div class="player-icon">
     <button  name="id" class="player-icon" value="" >
         <i class="pe-7s-play"></i>
     </button>
-</div>
+</div>-->
 
 <div class="audio-player">
     <audio id="audio-player" controls>

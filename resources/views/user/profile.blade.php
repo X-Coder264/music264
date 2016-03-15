@@ -136,17 +136,35 @@
                                 </form>
                             @endif
 
-                            <div class="statuses">
+                            <div class="container">
                             @foreach($status as $stat)
-                                    <article>{{ $stat->text }}
-                                        {{ $stat->created_at->diffForHumans() }}
-                                    </article>
+                                    <div class="well">
+                                        <div class="row">
+                                            <div class="">
+                                                <h4 style="margin-top: 0; margin-bottom: 0; margin-left: 20px;">{{$user -> name}}</h4>
+                                                @if($user -> image_path)
+                                                    <img class="card-bkimg col-md-1" alt="" src="{{ asset($user -> image_path) }}">
+                                                @else
+                                                    <img class="card-bkimg col-md-1" alt="" src="/imgs/profile_default_avatar.jpg">
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-10">
+                                                <blockquote>
+                                                    <p>{{ $stat->text }}</p>
+                                                    <footer>{{ $stat->created_at->diffForHumans() }}</footer>
+                                                </blockquote>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 @endforeach
                             </div>
 
-                        </div>
                     </div>
 
+
+                    </div>
                     <!--MUSIC-->
                     <div class="tab-pane fade in" id="Music">
                         @include('music-albums.music')

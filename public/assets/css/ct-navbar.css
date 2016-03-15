@@ -344,20 +344,26 @@ body{
         filter: none;
     }
 
-    .dropdown-menu:before{
+    .dropdown > .dropdown-menu:before{
         /*border-bottom: 11px solid rgba(0, 0, 0, 0.2);*/
         border-left: 11px solid rgba(0, 0, 0, 0);
         border-right: 11px solid rgba(0, 0, 0, 0);
         content: "";
         display: inline-block;
+        position: absolute;
+        right: 15px;
+        top: -11px;
     }
 
-    .dropdown-menu:after {
+    .dropdown > .dropdown-menu:after {
         /*border-bottom: 11px solid #FFFFFF;*/
         border-left: 11px solid rgba(0, 0, 0, 0);
         border-right: 11px solid rgba(0, 0, 0, 0);
         content: "";
         display: inline-block;
+        position: absolute;
+        right: 15px;
+        top: -11px;
     }
 
 }
